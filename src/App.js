@@ -9,7 +9,7 @@ import { Route,Routes } from 'react-router-dom';
 import { getProfileAction } from './Redux/Auth/auth.action'
 
 function App() {
-  const {auth}=useSelector(store=>store)
+  const auth=useSelector(store=>store.auth)
   const jwt = localStorage.getItem("jwt")
   const dispatch = useDispatch()
   useEffect(()=>{

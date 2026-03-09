@@ -26,7 +26,7 @@ function Profile() {
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
   return (
-    <Card className='py-10 w-[100%] bg-orange-300'>
+    <Card className='py-3 w-[100%] bg-orange-300'>
       <div className="rounded-md">
         <div className='h-[15rem]'>
           <img

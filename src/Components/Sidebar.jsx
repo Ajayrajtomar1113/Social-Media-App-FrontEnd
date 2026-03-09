@@ -40,7 +40,7 @@ const [anchorEl, setAnchorEl] = React.useState(null);
       }
       break
 
-    case "Messages":
+    case "Message":
       navigate("/message")
       break
 
@@ -55,8 +55,8 @@ const [anchorEl, setAnchorEl] = React.useState(null);
           <span className='logo font-bold text-xl'>Social Media</span>
         </div>
         <div className="space-y-8">
-          {navigationMenu.map((item)=>
-          <div onClick={()=>handleNavigate(item)} className='flex space-x-3 cursor-pointer items-center'>
+          {navigationMenu.map((item,index)=>
+          <div key={index} onClick={()=>handleNavigate(item)} className='flex space-x-3 cursor-pointer items-center'>
             {item.icon}
             <p className='text-xl'>{item.title}</p>
           </div>)}
@@ -64,11 +64,14 @@ const [anchorEl, setAnchorEl] = React.useState(null);
         <Divider/>
         <div className="flex justify-start items-center pt-5">
           <div className="flex items-center">
-            <Avatar src=""></Avatar>
+            <Avatar src={auth.user?.image}>
+              {auth.user?.firstName?.[0]}
+            </Avatar>
           </div>
           <div className='pl-5'>
             <p className='font-bold'>{auth.user?.firstName+" "+auth.user?.lastName}</p>
-            <p className='opacity-70'>@{auth.user?.firstName.toLowerCase()+"_"+auth.user?.lastName.toLowerCase()}</p>
+            <p className='opacity-70'>
+              @{auth.user?.firstName?.toLowerCase()+"_"+auth.user?.lastName?.toLowerCase()}</p> 
           </div>
           <Button
         id="basic-button"

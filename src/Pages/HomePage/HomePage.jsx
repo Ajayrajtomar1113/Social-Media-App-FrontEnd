@@ -8,6 +8,7 @@ import Profile from '..//Profile/Profile'
 import HomeRight from '../../Components/HomeRight/HomeRight'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProfileAction } from '../../Redux/Auth/auth.action'
+import Message from '../Message/Message'
 
 function HomePage() {
     const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function HomePage() {
                             <Route path="reels" element={<Reels/>} />
                             <Route path="create_reel" element={<CreateReelForm/>} />
                             <Route path="profile/:id" element={<Profile/>}/>
+                            <Route path="message" element={<Message/>}/>
                     </Routes>
                 </div>
         </div>
