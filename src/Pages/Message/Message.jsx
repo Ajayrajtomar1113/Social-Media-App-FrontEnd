@@ -4,6 +4,9 @@ import { Avatar, Grid, IconButton } from '@mui/material';
 import AddCallIcon from '@mui/icons-material/AddCall';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import SearchUser from '../../Components/SearchUser/SearchUser';
+import UserChatCard from './UserChatCard';
+import ChatMessage from './ChatMessage';
 
 function Message() {
 const handleSelectImage=()=>{
@@ -23,10 +26,11 @@ const handleSelectImage=()=>{
             </div>
             <div className='h-[83vh]'>
               <div>
-                Searchuser
+                <SearchUser/>
               </div>
               <div className="h-full space-y-4 mt-4 overflow-y-scroll hideScrollbar">
-              user char card
+                <UserChatCard/>
+              
               </div>
             </div>
             </div>
@@ -50,7 +54,7 @@ const handleSelectImage=()=>{
             </div>
           </div>
           <div className='hideScrollbar overflow-y-scroll h-[82vh] px-2 space-y-5 pl-5'>
-            message
+            <ChatMessage/>
           </div>
           <div className='sticky bottom-0 border-l'>
             <div className="py-5 flex items-center justify-center space-x-2">
