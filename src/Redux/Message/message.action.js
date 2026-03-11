@@ -1,11 +1,10 @@
 import { api } from "../../config/api"
-import { CREATE_MESSAGE_REQUEST, CREATE_MESSAGE_SUCCESS } from "./message.actionType"
 import * as actionType from "./message.actionType"
 
 export const createMessage=(message)=>async(dispatch)=>{
     dispatch({type:actionType.CREATE_MESSAGE_REQUEST})
     try {
-        const {data} = await api.post(`/api/message`,message);
+        const {data} = await api.post(`/api/message/chat/${message.chatId}`,message);
         
         console.log("created msg",data)
         dispatch({type:actionType.CREATE_MESSAGE_SUCCESS,payload:data})
@@ -29,9 +28,9 @@ export const createChat=(chat)=>async(dispatch)=>{
 }
 
 export const getAllChats=()=>async(dispatch)=>{
-    dispatch({type:actionType.GET_ALL_CHATS_REQUEST_REQUEST})
+    dispatch({type:actionType.GET_ALL_CHATS_REQUEST})
     try {
-        const {data} = await api.get(`/api/chats/user`,message);
+        const {data} = await api.get(`/api/chats`);
         
         console.log("get all chats",data)
         dispatch({type:actionType.GET_ALL_CHATS_SUCCESS,payload:data})

@@ -1,14 +1,21 @@
 import { Avatar, Card, CardHeader } from '@mui/material'
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { searchUser } from '../../Redux/Auth/auth.action';
+import { createChat } from '../../Redux/Message/message.action';
 
 function SearchUser() {
   const [username,setUsername]=useState(null)
+  const dispatch = useDispatch();
+  const {message,auth}=useSelector(store=>store)
+
   const handleSearchUser=(e)=>{
     setUsername(e.target.value);
-    console.log("Search user...")
+    dispatch(searchUser(username))
   }
+
   const handleClick=(id)=>{
-    console.log(id)
+    dispatch(createChat({userId:id}))
   }
   return (
     <div>
@@ -19,18 +26,22 @@ function SearchUser() {
         onChange={handleSearchUser}
         />
         {
-        username && 
-        (<Card className='absolute w-full z-10 top-[4.5rem] cursor-pointer'> 
-            <CardHeader onClick={()=>{
-              handleClick()
-              setUsername("")
-            }}
-            avatar={<Avatar src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"/>}
-            title="Ajay Raj"
-            subheader={"@ajayraj"}
-            />
-        </Card>
-      )}
+          username && 
+          (
+            auth.searchUser.map((item)=>(
+              <Card key={item.id} className='absolute w-full z-10 top-[4.5rem] cursor-pointer'> 
+                <CardHeader
+                  onClick={()=>{
+                    handleClick(item.id)
+                    setUsername("")
+                  }}
+                  avatar={<Avatar src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"/>}
+                  title={item.firstName + " " + item.lastName}
+                  subheader={"@" + item.firstName.toLowerCase()+"_"+item.lastName.toLowerCase()}
+                />
+              </Card>
+            ))
+          )}
       </div>
       
     </div>
