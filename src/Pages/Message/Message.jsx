@@ -12,6 +12,10 @@ import { createMessage, getAllChats } from '../../Redux/Message/message.action';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { uploadToCloudinary } from '../../utils/uploadToCloudnary';
 
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
+
+
 function Message() {
 
   const [currentChat,setCurrentChat]=useState()
@@ -43,8 +47,74 @@ function Message() {
       content:value,
       image:selectedImage
     }
-    dispatch(createMessage(message))
+    dispatch(createMessage(
+      // {message,sendMessageToServer},
+    message))
   }
+
+//  const [stompClient, setStompClient] = useState(null);
+
+// useEffect(() => {
+
+//   const socket = new SockJS("http://localhost:8080/ws");
+
+//   const stomp = new Client({
+//   webSocketFactory: () => socket,
+//   connectHeaders: {
+//     Authorization: `Bearer ${localStorage.getItem("jwt")}`
+//   },
+//     reconnectDelay: 5000,
+
+//     onConnect: () => {
+//       console.log("websocket connected");
+//     },
+
+//     onStompError: (frame) => {
+//       console.log("error", frame);
+//     }
+//   });
+
+//   stomp.activate();
+//   setStompClient(stomp);
+
+//   return () => {
+//     if (stomp) {
+//       stomp.deactivate();
+//     }
+//   };
+
+// }, []);
+
+
+// useEffect(() => {
+//   if (stompClient && auth.user && currentChat) {
+
+//     const subscription = stompClient.subscribe(`/topic/chat/${currentChat.id}`, onMessageReceive);
+
+//     return () => {
+//       subscription.unsubscribe();
+//     };
+//   }
+
+// }, [stompClient, auth.user, currentChat]);
+
+
+// const onMessageReceive = (message) => {
+//   const data = JSON.parse(message.body);
+//   console.log("message received from websocket", data);
+// };
+
+
+// const sendMessageToServer = (newMessage) => {
+//   if (stompClient && newMessage) {
+
+//     stompClient.publish({
+//       destination: `/app/chat/${currentChat?.id}`,
+//       body: JSON.stringify(newMessage)
+//     });
+
+//   }
+// };
   return (
     // <div className="min-h-screen w-full bg-zinc-200">
       
@@ -97,7 +167,7 @@ function Message() {
                   </IconButton>
                 </div>
               </div>
-              <div className='hideScrollbar overflow-y-scroll h-[82vh] px-2 space-y-5 pl-5'>
+              <div className='hideScrollbar overflow-y-scroll h-[82vh] px-2 space-y-5 pl-5 pb-20'>
                 {messages.map((item)=><ChatMessage item={item}/>)}
               </div>
               <div className='sticky bottom-0 border-l'>
