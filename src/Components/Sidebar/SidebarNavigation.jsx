@@ -19,7 +19,7 @@ export const navigationMenu=[
         path:"/reels"
     },
     {
-        title:"Create Reels",
+        title:"Create Reel",
         icon:<ControlPointIcon/>,
         path:"/create_reels"
     },
@@ -33,16 +33,16 @@ export const navigationMenu=[
         icon:<MessageIcon/>,
         path:"/message"
     },
-    {
-        title:"Lists",
-        icon:<ListIcon/>,
-        path:"/"
-    },
-    {
-        title:"Communities",
-        icon:<GroupIcon/>,
-        path:"/"
-    },
+    // {
+    //     title:"Lists",
+    //     icon:<ListIcon/>,
+    //     path:"/"
+    // },
+    // {
+    //     title:"Communities",
+    //     icon:<GroupIcon/>,
+    //     path:"/"
+    // },
     {
         title:"Profile",
         icon:<AccountCircleIcon/>,

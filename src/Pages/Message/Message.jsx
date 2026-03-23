@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import WestIcon from '@mui/icons-material/West';
 import { Avatar, Backdrop, CircularProgress, IconButton } from '@mui/material';
 import AddCallIcon from '@mui/icons-material/AddCall';
@@ -11,19 +11,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createMessage, getAllChats } from '../../Redux/Message/message.action';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { uploadToCloudinary } from '../../utils/uploadToCloudnary';
-
-import SockJS from "sockjs-client";
-import { Client } from "@stomp/stompjs";
+import { useNavigate } from 'react-router-dom';
+// import SockJS from "sockjs-client";
+// import { Client } from "@stomp/stompjs";
 
 
 function Message() {
-
+  const navigate = useNavigate();
   const [currentChat,setCurrentChat]=useState()
   const [messages,setMessages]  = useState([])
   const [loading,setLoading] = useState(false)
   const [selectedImage,setSelectedImage] = useState()
   const dispatch = useDispatch() 
-  const {message,auth}=useSelector(store=>store)
+  const message = useSelector(store => store.message)
+const auth = useSelector(store => store.auth)
+  const chatContainerRef = useRef()
 
   const handleSelectImage=async (event)=>{
     setLoading(true)
@@ -50,6 +52,9 @@ function Message() {
     dispatch(createMessage(
       // {message,sendMessageToServer},
     message))
+  }
+  const goToHome=()=>{
+    navigate('/home')
   }
 
 //  const [stompClient, setStompClient] = useState(null);
@@ -115,6 +120,11 @@ function Message() {
 
 //   }
 // };
+useEffect(()=>{
+  if(chatContainerRef.current){
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  }
+},[messages])
   return (
     // <div className="min-h-screen w-full bg-zinc-200">
       
@@ -122,10 +132,10 @@ function Message() {
         <div className="col-span-3 p-4 bg-zinc-100">
           <div className="flex h-full justify-between space-x-2">
             <div className="w-full">
-              <div className="flex space-x-4 items-center py-5">
-              <WestIcon></WestIcon>
-              <h1 className='text-xl font-bold'>Home</h1>
-            </div>
+              <div className="flex space-x-4 items-center py-5 cursor-pointer" onClick={goToHome}>
+                <WestIcon></WestIcon>
+                <h1 className='text-xl font-bold'>Home</h1>
+              </div>
             <div className='h-[83vh]'>
               <div>
                 <SearchUser/>
@@ -167,8 +177,8 @@ function Message() {
                   </IconButton>
                 </div>
               </div>
-              <div className='hideScrollbar overflow-y-scroll h-[82vh] px-2 space-y-5 pl-5 pb-20'>
-                {messages.map((item)=><ChatMessage item={item}/>)}
+              <div ref={chatContainerRef} className='hideScrollbar overflow-y-scroll h-[82vh] px-2 space-y-5 pl-5 pb-20'>
+                {messages.map((item)=><ChatMessage key={item.id} item={item}/>)}
               </div>
               <div className='sticky bottom-0 border-l'>
                 {selectedImage && <img src={selectedImage} className='w-[10rem] h-[5rem] object-cover px-2' alt="" />}

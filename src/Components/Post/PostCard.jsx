@@ -17,7 +17,7 @@ function PostCard({item}) {
 const [showComments,setShowComments] = useState(false)
 const handleShowComment=()=>setShowComments(!showComments);
 const dispatch = useDispatch()
-const {posts,auth}=useSelector(store=>store)
+const auth=useSelector(store=>store.auth)
 
 const handleCreateComment=(content)=>{
       const reqData={

@@ -15,7 +15,7 @@ const story=[1,1,1,1,1,1]
 
 function MiddlePart() {
   const dispatch = useDispatch()
-  const {post} = useSelector(store=>store)
+  const post = useSelector(store=>store.post)
   
   
   const [openCreatePostModal,setOpenCreatePostModal] = useState(false);
@@ -39,7 +39,7 @@ function MiddlePart() {
         </Avatar>
         <p>New</p>
         </div>
-        {story.map((item)=><StoryCircle/>)}
+        {story.map((item)=><StoryCircle />)}
       </section>
       
       <Card className='p-5 mt-5'>

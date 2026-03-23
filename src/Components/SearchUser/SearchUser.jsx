@@ -7,7 +7,7 @@ import { createChat } from '../../Redux/Message/message.action';
 function SearchUser() {
   const [username,setUsername]=useState(null)
   const dispatch = useDispatch();
-  const {message,auth}=useSelector(store=>store)
+  const auth=useSelector(store=>store.auth)
 
   const handleSearchUser=(e)=>{
     setUsername(e.target.value);

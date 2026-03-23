@@ -1,11 +1,12 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS,LOGIN_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GET_PROFILE_SUCCESS, GET_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, SEARCH_USER_SUCCESS } from "./auth.actionType"
+import { LOGIN_REQUEST, LOGIN_SUCCESS,LOGIN_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GET_PROFILE_SUCCESS, GET_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, SEARCH_USER_SUCCESS, GET_ALL_USER_SUCCESS, GET_ALL_USER_FAILURE, GET_ALL_USER_REQUEST } from "./auth.actionType"
 
 const initialState = {
     jwt:null,
     error:null,
     loading:false,
     user:null,
-    searchUser:[]
+    searchUser:[],
+    users:[]
 }
 export const authReducer=(state=initialState,action)=>{
     switch(action.type){
@@ -29,6 +30,12 @@ export const authReducer=(state=initialState,action)=>{
             return {...state, jwt:action.payload, loading:false,error:null}
         case SEARCH_USER_SUCCESS:
             return {...state,searchUser:action.payload,loading:false,error:null}    
+        case GET_ALL_USER_REQUEST:
+            return {...state, loading:true, error:null} 
+        case GET_ALL_USER_SUCCESS:
+            return {...state,users:action.payload,loading:false,error:null}   
+        case GET_ALL_USER_FAILURE:
+            return {...state,loading:false,error:action.payload}
         default:
             return state;
     

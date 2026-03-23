@@ -13,7 +13,7 @@ import Message from '../Message/Message'
 function HomePage() {
     const dispatch = useDispatch();
     const jwt = localStorage.getItem("jwt")
-    const {auth}= useSelector(store=>store);
+    const auth= useSelector(store=>store.auth);
     // console.log("auth",auth)
     useEffect(() => {
       if (jwt) {
