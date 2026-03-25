@@ -2,21 +2,22 @@ import { Button, TextField } from "@mui/material"
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import React, { useState } from "react"
 import { useDispatch } from "react-redux";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 import { loginUserAction } from "../../Redux/Auth/auth.action";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const initialValues={email:"",password:""}
-    const validationSchema={email:Yup.string().email("Invalid email").required("Email is required"),
-        password:Yup.string().min(6,"Password must  be at least 6 characters").required("Password is required")};
-    const [formValue,setFormValue] = useState();
+    // const validationSchema={email:Yup.string().email("Invalid email").required("Email is required"),
+    //     password:Yup.string().min(6,"Password must  be at least 6 characters").required("Password is required")};
+    
     const dispatch = useDispatch();
         const navigate = useNavigate();
 
     const handleSubmit=(values)=>{
         console.log("handlesubmit");
-        dispatch(loginUserAction(values));
+        const res = dispatch(loginUserAction(values));
+        
     }
      
     return (
@@ -33,7 +34,7 @@ const Login = () => {
                             <ErrorMessage name="password" component="div" className="text-red-500"/>
                         </div>
                     </div>
-                    <Button sx={{padding:".8rem 0 rem"}} fullWidth type="submit" variant="contained" >Login</Button>
+                    <Button sx={{padding:".8rem 0 rem"}} fullWidth type="submit" variant="contained">Login</Button>
                 </Form>
             </Formik>
             <div className="flex gap-2 items-center justify-center pt-5">

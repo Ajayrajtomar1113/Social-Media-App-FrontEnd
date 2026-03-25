@@ -17,7 +17,8 @@ const reels = [1,1,1,1,1]
 function Profile() {
     const {id} = useParams()
     const [value, setValue] = React.useState('post');
-    const {auth}= useSelector(store=>store);
+    const auth= useSelector(store=>store.auth);
+    const post = useSelector(store=>store.post);
 
       const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -67,13 +68,22 @@ function Profile() {
             </Box>
             <div className="flex justify-center">
               {value === "post"? (<div className='space-y-5 w-[70%] my-10'>
-                  {posts.map((item)=>(<div className='border border-slate-100 rounded-md'>
-                    <PostCard></PostCard>
+                  {post.posts
+                  ?.filter((p) => p.user?.id === auth?.user?.id)
+                  .map((item) => (
+                    <div key={item.id} className='border border-slate-100 rounded-md'>
+                      <PostCard item={item}/>
                     </div>))}
                 </div>)
                 :
                 value === "reels"?<div className='flex flex-wrap justify-start items-start gap-5 my-10 pl-12'>
-                    {reels.map((item)=><UserReelCard></UserReelCard>)}
+                    {
+                      post.reels
+                        ?.filter((reel) => reel.user?.id === auth?.user?.id)
+                        .map((item) => (
+                          <UserReelCard key={item.id} item={item} />
+                        ))
+                    }
                 </div>
                 :
                 value === "saved"?<div className='flex flex-wrap justify-start items-start gap-5 my-10 pl-12'>

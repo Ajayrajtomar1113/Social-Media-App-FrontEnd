@@ -13,9 +13,11 @@ export const loginUserAction = (loginData)=>async(dispatch)=>{
         }
         console.log("login success",data);
         dispatch({type:LOGIN_SUCCESS,payload:data.token})
+     
     } catch (error) {
         console.log("------",error)
         dispatch({type:LOGIN_FAILURE,payload:error})
+      
     }
 }
 

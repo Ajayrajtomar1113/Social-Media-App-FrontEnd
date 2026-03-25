@@ -12,9 +12,9 @@ function HomeRight() {
   const dispatch = useDispatch()
   const auth = useSelector(store=>store.auth)
   useEffect(()=>{
-    dispatch(getAllUserAction)
+    dispatch(getAllUserAction())
   },[dispatch])
-  console.log(auth.users)
+
   return (
     <div className='pr-2'>
       <SearchUser/>
@@ -24,11 +24,12 @@ function HomeRight() {
             <p className='text-xs font-semibold opacity-95 pr-5'>View All</p>
           </div>
           <div>
-            {popularUser.map((item)=><PopularUserCard/>)}
+            {auth.users.map((item)=><PopularUserCard item={item}/>)}
           </div>
       </Card>
       
     </div>
+    
   )
 }
 

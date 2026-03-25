@@ -9,8 +9,9 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { useDispatch, useSelector } from 'react-redux';
-import { createCommentAction, likePostAction } from '../../Redux/Post/Post.action';
+import { createCommentAction, deleteCommentAction, likePostAction } from '../../Redux/Post/Post.action';
 import { isLikedByReqUser } from '../../utils/isLikedByRequser';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function PostCard({item}) {
   
@@ -27,6 +28,9 @@ const handleCreateComment=(content)=>{
       }
       dispatch(createCommentAction(reqData))
     }
+const handleDeleteComment = (commentId)=>{
+  dispatch(deleteCommentAction(commentId))
+}    
 const handleLikePost=()=>{
   dispatch(likePostAction(item.id))
 }
@@ -35,7 +39,7 @@ const handleLikePost=()=>{
         <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            {item?.user?.firstName?.[0]}
           </Avatar>
         }
         action={
@@ -91,12 +95,24 @@ const handleLikePost=()=>{
         <Divider/>
         {item.comments?.map((comment) => (
           <div key={comment.id} className="mx-3 space-y-2 my-5 text-xs">
-            <div className="flex items-center space-x-5">
+            <div className="flex items-center space-x-5 text-lg">
               <Avatar sx={{ height: "2rem", width: "2rem", fontSize: "0.8rem" }}>
                 {comment?.user?.firstName[0]}
               </Avatar>
 
-              <p>{comment.content}</p>
+             <div className="flex justify-between w-full">
+               <p>{comment.content}</p>
+              {auth?.user?.id === comment?.user?.id && (
+                <div
+                  className='cursor-pointer'
+                  onClick={() => handleDeleteComment(comment.id)}
+                >
+                  <DeleteIcon/>
+                </div>
+              )}
+             
+
+             </div>
             </div>
           </div>
         ))}
