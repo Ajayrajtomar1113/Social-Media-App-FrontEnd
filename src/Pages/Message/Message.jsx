@@ -24,7 +24,7 @@ function Message() {
   const [selectedImage,setSelectedImage] = useState()
   const dispatch = useDispatch() 
   const message = useSelector(store => store.message)
-const auth = useSelector(store => store.auth)
+  const auth = useSelector(store => store.auth)
   const chatContainerRef = useRef()
 
   const handleSelectImage=async (event)=>{
@@ -57,69 +57,7 @@ const auth = useSelector(store => store.auth)
     navigate('/home')
   }
 
-//  const [stompClient, setStompClient] = useState(null);
 
-// useEffect(() => {
-
-//   const socket = new SockJS("http://localhost:8080/ws");
-
-//   const stomp = new Client({
-//   webSocketFactory: () => socket,
-//   connectHeaders: {
-//     Authorization: `Bearer ${localStorage.getItem("jwt")}`
-//   },
-//     reconnectDelay: 5000,
-
-//     onConnect: () => {
-//       console.log("websocket connected");
-//     },
-
-//     onStompError: (frame) => {
-//       console.log("error", frame);
-//     }
-//   });
-
-//   stomp.activate();
-//   setStompClient(stomp);
-
-//   return () => {
-//     if (stomp) {
-//       stomp.deactivate();
-//     }
-//   };
-
-// }, []);
-
-
-// useEffect(() => {
-//   if (stompClient && auth.user && currentChat) {
-
-//     const subscription = stompClient.subscribe(`/topic/chat/${currentChat.id}`, onMessageReceive);
-
-//     return () => {
-//       subscription.unsubscribe();
-//     };
-//   }
-
-// }, [stompClient, auth.user, currentChat]);
-
-
-// const onMessageReceive = (message) => {
-//   const data = JSON.parse(message.body);
-//   console.log("message received from websocket", data);
-// };
-
-
-// const sendMessageToServer = (newMessage) => {
-//   if (stompClient && newMessage) {
-
-//     stompClient.publish({
-//       destination: `/app/chat/${currentChat?.id}`,
-//       body: JSON.stringify(newMessage)
-//     });
-
-//   }
-// };
 useEffect(()=>{
   if(chatContainerRef.current){
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -138,7 +76,7 @@ useEffect(()=>{
               </div>
             <div className='h-[83vh]'>
               <div>
-                <SearchUser/>
+                <SearchUser isChat={true}/>
               </div>
               <div className="h-full space-y-4 mt-4 overflow-y-scroll hideScrollbar">
                 {

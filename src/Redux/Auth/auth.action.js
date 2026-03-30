@@ -1,5 +1,5 @@
 import { api, API_BASE_URL } from "../../config/api";
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_REQUEST,REGISTER_SUCCESS,REGISTER_FAILURE, GET_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, GET_PROFILE_FAILURE ,UPDATE_PROFILE_REQUEST,GET_PROFILE_SUCCESS,UPDATE_PROFILE_FAILURE, SEARCH_USER_SUCCESS, SEARCH_USER_FAILURE, SEARCH_USER_REQUEST, GET_ALL_USER_REQUEST, GET_ALL_USER_SUCCESS, GET_ALL_USER_FAILURE} from "./auth.actionType"
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_REQUEST,REGISTER_SUCCESS,REGISTER_FAILURE, GET_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, GET_PROFILE_FAILURE ,UPDATE_PROFILE_REQUEST,GET_PROFILE_SUCCESS,UPDATE_PROFILE_FAILURE, SEARCH_USER_SUCCESS, SEARCH_USER_FAILURE, SEARCH_USER_REQUEST, GET_ALL_USER_REQUEST, GET_ALL_USER_SUCCESS, GET_ALL_USER_FAILURE, FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE, SAVE_POST_REQUEST, SAVE_POST_SUCCESS, SAVE_POST_FAILURE} from "./auth.actionType"
 import axios from "axios";
 
 export const loginUserAction = (loginData)=>async(dispatch)=>{
@@ -101,7 +101,7 @@ export const searchUser = (query) => async (dispatch) => {
 
 export const getAllUserAction = () => async (dispatch) => {
     dispatch({ type: GET_ALL_USER_REQUEST });
-    console.log("api hit...")
+    
     try {
         const {data} =  await api.get('/api/users')
         console.log("users", data);
@@ -113,3 +113,27 @@ export const getAllUserAction = () => async (dispatch) => {
         dispatch({ type: GET_ALL_USER_FAILURE, payload: error });
     }
 };
+
+export const followUserAction=(userId)=>async(dispatch)=>{
+    dispatch({type:FOLLOW_REQUEST});
+    try {
+        const {data} = await api.put(`/api/users/follow/${userId}`)
+        dispatch({type:FOLLOW_SUCCESS,payload:data})
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+        dispatch({type:FOLLOW_FAILURE,payload:error})
+    }
+
+}
+export const savePostAction=(postId)=>async (dispatch)=>{
+    dispatch({type:SAVE_POST_REQUEST})
+    try {
+        const {data} = await api.put(`/api/posts/save/${postId}`)
+        dispatch({type:SAVE_POST_SUCCESS,payload:data})
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+        dispatch({type:SAVE_POST_FAILURE,payload:error})
+    }
+}

@@ -30,7 +30,7 @@ function MiddlePart() {
   },[post.newComment])
   return (
     <div className='px-5'>
-      <section className="flex bg-zinc-300 items-center p-4 rounded-b-md">
+      {/* <section className="flex bg-zinc-300 items-center p-4 rounded-b-md">
         <div className='flex flex-col items-center mr-4 cursor-pointer'>
           <Avatar sx={{width:"4.5rem",height:"4.5rem"}} 
         src="" 
@@ -40,7 +40,7 @@ function MiddlePart() {
         <p>New</p>
         </div>
         {story.map((item)=><StoryCircle />)}
-      </section>
+      </section> */}
       
       <Card className='p-5 mt-5'>
         <div className="flex justify-between">

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createCommentAction, deleteCommentAction, likePostAction } from '../../Redux/Post/Post.action';
 import { isLikedByReqUser } from '../../utils/isLikedByRequser';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { savePostAction } from '../../Redux/Auth/auth.action';
 
 function PostCard({item}) {
   
@@ -33,6 +34,9 @@ const handleDeleteComment = (commentId)=>{
 }    
 const handleLikePost=()=>{
   dispatch(likePostAction(item.id))
+}
+const handleSaved=()=>{
+  dispatch(savePostAction(item.id))
 }
   return (
     <Card className=''>
@@ -71,9 +75,13 @@ const handleLikePost=()=>{
           <IconButton onClick={handleShowComment}>
             { <ChatBubbleIcon/>}
           </IconButton>  
-          <IconButton>
-            { true?<BookmarkIcon/>:<BookmarkBorderIcon/>}
-          </IconButton> 
+          <IconButton onClick={handleSaved}>
+            {auth?.user?.savedPost?.some(p => p.id === item.id) ? (
+              <BookmarkIcon />
+            ) : (
+              <BookmarkBorderIcon />
+            )}
+          </IconButton>
         </div>  
         <div>
           <IconButton>

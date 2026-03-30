@@ -5,15 +5,15 @@ import PostCard from '../../Components/Post/PostCard'
 import UserReelCard from '../../Components/Reels/UserReelCard'
 import { useSelector } from 'react-redux'
 import ProfileModal from './ProfileModal'
+
 const tabs=[
   {value:"post",name:"post"},
   {value:"reels",name:"Reels"},
   {value:"saved",name:"Saved"},
   {value:"repost",name:"Repost"}
 ]
-const savedPost = [1,1,1,1,1]
-const posts = [1,1,1,1,1]
-const reels = [1,1,1,1,1]
+
+
 function Profile() {
     const {id} = useParams()
     const [value, setValue] = React.useState('post');
@@ -47,9 +47,9 @@ function Profile() {
             </h1>
             <p>@{auth.user?.firstName.toLowerCase()+"_"+auth.user?.lastName.toLowerCase()}</p>
             <div className="flex gap-4 items-center py-3">
-              <span>19 post</span>
-              <span>#0 followers</span>
-              <span>32 followings</span>
+              <span>{post.posts?.filter(p => p.user?.id === auth?.user?.id).length || 0} posts</span>
+              <span> {auth?.user?.followers?.length || 0} followers</span>
+              <span> {auth?.user?.followings?.length || 0} followings</span>
             </div>
             <div>
               <p>Loremdsb asugdc aUYGCua cyuassxNSx</p>
@@ -86,15 +86,19 @@ function Profile() {
                     }
                 </div>
                 :
-                value === "saved"?<div className='flex flex-wrap justify-start items-start gap-5 my-10 pl-12'>
-                    {savedPost.map((item)=><PostCard></PostCard>)}
-                </div>
+                value === "saved" ? (
+                  <div className='flex flex-wrap justify-start items-start gap-5 my-10 pl-12'>
+                    {auth?.user?.savedPost?.map((item) => (
+                      <div key={item.id} className='border border-slate-100 rounded-md'>
+                        <PostCard item={item} />
+                      </div>
+                    ))}
+                  </div>
+                )
                 :
-                  (
-                    <div className='flex flex-wrap justify-start items-start gap-5 my-10 pl-12'>
-                    {savedPost.map((item)=><PostCard></PostCard>)}
-                </div>
-                  )}
+                  value === "repost" ? (
+                  <div className='pt-10'>Repost coming soon</div>
+                ) : null}
             </div>
           </section>
         </div>

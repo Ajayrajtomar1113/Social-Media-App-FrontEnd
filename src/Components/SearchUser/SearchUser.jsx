@@ -3,20 +3,26 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { searchUser } from '../../Redux/Auth/auth.action';
 import { createChat } from '../../Redux/Message/message.action';
+import { useNavigate } from 'react-router-dom';
 
-function SearchUser() {
+function SearchUser({isChat}) {
   const [username,setUsername]=useState(null)
   const dispatch = useDispatch();
   const auth=useSelector(store=>store.auth)
-
+  const navigate = useNavigate()
+  
   const handleSearchUser=(e)=>{
     setUsername(e.target.value);
     dispatch(searchUser(username))
   }
 
-  const handleClick=(id)=>{
-    dispatch(createChat({userId:id}))
+  const handleClick = (id) => {
+  if (isChat) {
+    dispatch(createChat({ userId: id }))
+  } else {
+    navigate(`/profile/${id}`)
   }
+}
   return (
     <div>
       <div className="py-5 relative">
