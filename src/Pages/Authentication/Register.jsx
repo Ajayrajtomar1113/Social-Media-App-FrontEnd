@@ -1,7 +1,6 @@
 import { Button, TextField } from "@mui/material"
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import React, { useState } from "react"
-import * as Yup from "yup";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -10,13 +9,11 @@ import { registerUserAction } from "../../Redux/Auth/auth.action";
 import { useNavigate } from "react-router-dom";
 
 const initialValues={firstName:"",lastName:"",email:"",password:"",gender:""}
-    const validationSchema={email:Yup.string().email("Invalid email").required("Email is required"),
-        password:Yup.string().min(6,"Password must  be at least 6 characters").required("Password is required")};
+   
 
 const Register = () => {
     
     const dispatch = useDispatch();
-    const [formValue,setFormValue] = useState();
     const [gender,setGender] = useState();
     const navigate = useNavigate();
     const handleChange=(e)=>{

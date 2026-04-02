@@ -2,9 +2,9 @@ import HomeIcon from '@mui/icons-material/Home';
 import ExploreIcon from '@mui/icons-material/Explore';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import ListIcon from '@mui/icons-material/List';
+// import ListIcon from '@mui/icons-material/List';
 import MessageIcon from '@mui/icons-material/Message';
-import GroupIcon from '@mui/icons-material/Group';
+// import GroupIcon from '@mui/icons-material/Group';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export const navigationMenu=[

@@ -39,7 +39,7 @@ const handleSaved=()=>{
   dispatch(savePostAction(item.id))
 }
   return (
-    <Card className=''>
+    <Card className='w-full mx-auto'>
         <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

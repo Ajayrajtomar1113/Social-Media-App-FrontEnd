@@ -1,85 +1,195 @@
+// import * as React from 'react';
+// import Box from '@mui/material/Box';
+// import Button from '@mui/material/Button';
+// import Modal from '@mui/material/Modal';
+// import { useDispatch } from 'react-redux';
+// import { useFormik } from 'formik';
+// import { Avatar, IconButton, TextField } from '@mui/material';
+// import { updateProfileAction } from '../../Redux/Auth/auth.action';
+// import CloseSharpIcon from '@mui/icons-material/CloseSharp';
+// const style = {
+//   position: 'absolute',
+//   top: '50%',
+//   left: '50%',
+//   transform: 'translate(-50%, -50%)',
+//   width: 600,
+//   bgcolor: 'background.paper',
+//   boxShadow: 24,
+//   p: 2,
+//   outline:"none",
+//   overFlow:"scroll-y",
+//   borderRadius:3
+// };
+
+// export default function ProfileModal({ open, handleClose }) {
+//   const dispatch = useDispatch();
+
+//   const formik = useFormik({
+//     initialValues: {
+//       firstName: '',
+//       lastName: '',
+//     },
+//     onSubmit: (values) => {
+//       console.log('values', values);
+//       dispatch(updateProfileAction(values));
+//       handleClose(); // optional but recommended
+//     },
+//   });
+
+//   return (
+//     <div>
+//       <Modal
+//       open={open}
+//       onClose={handleClose}
+//       aria-labelledby="modal-modal-title"
+//       aria-describedby="modal-modal-description"
+//     >
+//       <Box sx={style}>
+//         <form onSubmit={formik.handleSubmit}>
+          
+//           {/* Header */}
+//           <div className="flex items-center justify-between">
+//             <div className="flex items-center space-x-3">
+//               <IconButton onClick={handleClose}>
+//                 <CloseSharpIcon />
+//               </IconButton>
+//               <p>Edit Profile</p>
+//             </div>
+//             <Button type="submit">Save</Button>
+//           </div>
+
+//           {/* Cover + Avatar */}
+//           <div>
+//             <div className="h-[15rem]">
+//               <img
+//                 className="w-full h-full rounded-t-md"
+//                 src="https://th.bing.com/th/id/OIP.U1MdjaXPL00AT-yoS2wuhAHaEo?w=316&h=197&c=7&r=0&o=7&pid=1.7&rm=3"
+//                 alt=""
+//               />
+//             </div>
+//             <div className="pl-5">
+//               <Avatar
+//                 className="transform -translate-y-24"
+//                 sx={{ width: '10rem', height: '10rem' }}
+//                 src='https://th.bing.com/th/id/OIP.XrGVljajcLZhvJGUD-Sc7gHaE7?w=261&h=180&c=7&r=0&o=7&pid=1.7&rm=3'
+//               />
+//             </div>
+//           </div>
+
+//           {/* Form Fields */}
+//           <div className="space-y-3">
+//             <TextField
+//               fullWidth
+//               id="firstName"
+//               name="firstName"
+//               label="First Name"
+//               value={formik.values.firstName}
+//               onChange={formik.handleChange}
+//             />
+
+//             <TextField
+//               fullWidth
+//               id="lastName"
+//               name="lastName"
+//               label="Last Name"
+//               value={formik.values.lastName}
+//               onChange={formik.handleChange}
+//             />
+//           </div>
+
+//         </form>
+//       </Box>
+//     </Modal>
+//     </div>
+//   );
+// }
+
+
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { Avatar, IconButton, TextField } from '@mui/material';
 import { updateProfileAction } from '../../Redux/Auth/auth.action';
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
+
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 600,
+  width: { xs: "95%", sm: 500, md: 600 },
+  maxHeight: "90vh",
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 2,
-  outline:"none",
-  overFlow:"scroll-y",
-  borderRadius:3
+  borderRadius: 3,
+  overflowY: "auto"
 };
 
 export default function ProfileModal({ open, handleClose }) {
+
   const dispatch = useDispatch();
+  const auth = useSelector(store => store.auth);
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      firstName: '',
-      lastName: '',
+      firstName: auth.user?.firstName || '',
+      lastName: auth.user?.lastName || '',
     },
     onSubmit: (values) => {
-      console.log('values', values);
       dispatch(updateProfileAction(values));
-      handleClose(); // optional but recommended
+      handleClose();
     },
   });
 
   return (
-    <div>
-      <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+    <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
         <form onSubmit={formik.handleSubmit}>
-          
+
           {/* Header */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-2">
               <IconButton onClick={handleClose}>
                 <CloseSharpIcon />
               </IconButton>
-              <p>Edit Profile</p>
+              <p className="font-semibold text-sm sm:text-base">Edit Profile</p>
             </div>
-            <Button type="submit">Save</Button>
+            <Button type="submit" variant="contained" size="small">
+              Save
+            </Button>
           </div>
 
           {/* Cover + Avatar */}
-          <div>
-            <div className="h-[15rem]">
+          <div className="relative">
+            <div className="h-[8rem] sm:h-[12rem]">
               <img
-                className="w-full h-full rounded-t-md"
-                src="https://th.bing.com/th/id/OIP.U1MdjaXPL00AT-yoS2wuhAHaEo?w=316&h=197&c=7&r=0&o=7&pid=1.7&rm=3"
+                className="w-full h-full object-cover rounded-md"
+                src="https://th.bing.com/th/id/OIP.U1MdjaXPL00AT-yoS2wuhAHaEo"
                 alt=""
               />
             </div>
-            <div className="pl-5">
-              <Avatar
-                className="transform -translate-y-24"
-                sx={{ width: '10rem', height: '10rem' }}
-                src='https://th.bing.com/th/id/OIP.XrGVljajcLZhvJGUD-Sc7gHaE7?w=261&h=180&c=7&r=0&o=7&pid=1.7&rm=3'
-              />
-            </div>
+
+            <Avatar
+              className="absolute -bottom-12 left-4 border-4 border-white"
+              sx={{
+                width: { xs: "5rem", sm: "8rem" },
+                height: { xs: "5rem", sm: "8rem" }
+              }}
+              src="https://th.bing.com/th/id/OIP.XrGVljajcLZhvJGUD-Sc7gHaE7"
+            />
           </div>
 
-          {/* Form Fields */}
-          <div className="space-y-3">
+          {/* Form */}
+          <div className="mt-16 space-y-3">
+
             <TextField
               fullWidth
+              size="small"
               id="firstName"
               name="firstName"
               label="First Name"
@@ -89,17 +199,18 @@ export default function ProfileModal({ open, handleClose }) {
 
             <TextField
               fullWidth
+              size="small"
               id="lastName"
               name="lastName"
               label="Last Name"
               value={formik.values.lastName}
               onChange={formik.handleChange}
             />
+
           </div>
 
         </form>
       </Box>
     </Modal>
-    </div>
   );
 }

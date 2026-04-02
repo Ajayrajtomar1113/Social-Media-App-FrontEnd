@@ -1,5 +1,5 @@
 import { api, API_BASE_URL } from "../../config/api";
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_REQUEST,REGISTER_SUCCESS,REGISTER_FAILURE, GET_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, GET_PROFILE_FAILURE ,UPDATE_PROFILE_REQUEST,GET_PROFILE_SUCCESS,UPDATE_PROFILE_FAILURE, SEARCH_USER_SUCCESS, SEARCH_USER_FAILURE, SEARCH_USER_REQUEST, GET_ALL_USER_REQUEST, GET_ALL_USER_SUCCESS, GET_ALL_USER_FAILURE, FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE, SAVE_POST_REQUEST, SAVE_POST_SUCCESS, SAVE_POST_FAILURE} from "./auth.actionType"
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_REQUEST,REGISTER_SUCCESS,REGISTER_FAILURE, GET_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, GET_PROFILE_FAILURE ,UPDATE_PROFILE_REQUEST,GET_PROFILE_SUCCESS,UPDATE_PROFILE_FAILURE, SEARCH_USER_SUCCESS, SEARCH_USER_FAILURE, SEARCH_USER_REQUEST, GET_ALL_USER_REQUEST, GET_ALL_USER_SUCCESS, GET_ALL_USER_FAILURE, FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE, SAVE_POST_REQUEST, SAVE_POST_SUCCESS, SAVE_POST_FAILURE, GET_USER_BY_ID_FAILURE, GET_USER_BY_ID_SUCCESS, GET_USER_BY_ID_REQUEST} from "./auth.actionType"
 import axios from "axios";
 
 export const loginUserAction = (loginData)=>async(dispatch)=>{
@@ -137,3 +137,26 @@ export const savePostAction=(postId)=>async (dispatch)=>{
         dispatch({type:SAVE_POST_FAILURE,payload:error})
     }
 }
+
+export const getUserById = (userId) => async (dispatch) => {
+    dispatch({ type: GET_USER_BY_ID_REQUEST });
+
+    try {
+        const { data } = await api.get(`/api/users/id/${userId}`);
+
+        console.log("user profile by id", data);
+
+        dispatch({
+            type: GET_USER_BY_ID_SUCCESS,
+            payload: data
+        });
+
+    } catch (error) {
+        console.log("------", error);
+
+        dispatch({
+            type: GET_USER_BY_ID_FAILURE,
+            payload: error
+        });
+    }
+};
