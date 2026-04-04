@@ -3,6 +3,7 @@ import React from "react";
 import Login from "./Login";
 import Register from "./Register";
 import { Routes, Route } from "react-router-dom";
+
 export default function Authentication() {
   return (
     <Grid container className="h-screen bg-zinc-400" wrap="nowrap">

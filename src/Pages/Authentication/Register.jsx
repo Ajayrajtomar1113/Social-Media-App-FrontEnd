@@ -20,12 +20,14 @@ const Register = () => {
         setGender(e.target.value);
         
     }
-    const handleSubmit=(values)=>{
-        values.gender=gender;
-        console.log("handlesubmit",values);
-        dispatch(registerUserAction(values));
+    const handleSubmit = (values) => {
+    const finalValues = {
+        ...values,
+        gender: gender
+    };
 
-    }
+    dispatch(registerUserAction(finalValues));
+}
     return (
         <div>
             <Formik onSubmit={handleSubmit}  initialValues={initialValues}>

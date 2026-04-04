@@ -5,7 +5,7 @@ import axios from "axios";
 export const loginUserAction = (loginData)=>async(dispatch)=>{
     dispatch({type:LOGIN_REQUEST})
     try {
-        const {data}=await axios.post(`${API_BASE_URL}/auth/signin`,loginData)
+        const {data}=await api.post("/auth/signin",loginData)
     
         if(data.token){
             localStorage.setItem("jwt",data.token)
@@ -13,6 +13,7 @@ export const loginUserAction = (loginData)=>async(dispatch)=>{
         }
         console.log("login success",data);
         dispatch({type:LOGIN_SUCCESS,payload:data.token})
+        dispatch(getProfileAction());
      
     } catch (error) {
         console.log("------",error)
@@ -44,19 +45,14 @@ export const registerUserAction = (loginData) => async (dispatch) => {
 }; 
 
 
-export const getProfileAction = (jwt) => async (dispatch) => {
+export const getProfileAction = () => async (dispatch) => {
     dispatch({ type: GET_PROFILE_REQUEST });
 
     try {
-        const { data } = await axios.get(
-            `${API_BASE_URL}/api/users/profile`,{
-                headers:{
-                    Authorization : `Bearer ${jwt}`
-                }
-            }
-            
-        );
-        console.log("register", data);
+        
+        const { data } = await api.get("/api/users/profile");
+        
+         console.log("profile", data);
         dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
 
     } catch (error) {
@@ -159,4 +155,12 @@ export const getUserById = (userId) => async (dispatch) => {
             payload: error
         });
     }
+};
+
+export const logoutAction = () => async (dispatch) => {
+    localStorage.removeItem("jwt");
+
+    dispatch({
+        type: "LOGOUT"
+    });
 };

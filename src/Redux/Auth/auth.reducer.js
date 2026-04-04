@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS,LOGIN_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GET_PROFILE_SUCCESS, GET_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, SEARCH_USER_SUCCESS, GET_ALL_USER_SUCCESS, GET_ALL_USER_FAILURE, GET_ALL_USER_REQUEST, FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE, SAVE_POST_REQUEST, SAVE_POST_SUCCESS, SAVE_POST_FAILURE, GET_USER_BY_ID_FAILURE, GET_USER_BY_ID_REQUEST } from "./auth.actionType"
+import { LOGIN_REQUEST, LOGIN_SUCCESS,LOGIN_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GET_PROFILE_SUCCESS, GET_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, SEARCH_USER_SUCCESS, GET_ALL_USER_SUCCESS, GET_ALL_USER_FAILURE, GET_ALL_USER_REQUEST, FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE, SAVE_POST_REQUEST, SAVE_POST_SUCCESS, SAVE_POST_FAILURE, GET_USER_BY_ID_FAILURE, GET_USER_BY_ID_REQUEST, GET_PROFILE_FAILURE } from "./auth.actionType"
 
 const initialState = {
     jwt:null,
@@ -11,6 +11,7 @@ const initialState = {
 }
 export const authReducer=(state=initialState,action)=>{
     switch(action.type){
+        
         case SAVE_POST_REQUEST:
         case GET_USER_BY_ID_REQUEST:    
         case LOGIN_REQUEST:
@@ -59,10 +60,13 @@ export const authReducer=(state=initialState,action)=>{
                 error: null,
                 user: action.payload  
             };    
+        case GET_PROFILE_FAILURE:
         case FOLLOW_FAILURE:
         case GET_USER_BY_ID_FAILURE:    
         case SAVE_POST_FAILURE:    
-            return {...state,loading:false,error:action.payload}            
+            return {...state,loading:false,error:action.payload}       
+        case "LOGOUT":
+            return {...state,jwt:null,user:null,loading:false,error:null}             
         default:
             return state;
     

@@ -5,8 +5,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { navigationMenu } from './Sidebar/SidebarNavigation'
 import { Avatar, Divider } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { logoutAction } from '../Redux/Auth/auth.action';
 
 function Sidebar() {
   const auth= useSelector(store=>store.auth);
@@ -19,7 +20,7 @@ const [anchorEl, setAnchorEl] = React.useState(null);
     setAnchorEl(null);
   };
   const navigate = useNavigate()
-
+  const dispatch = useDispatch();
   const handleProfile = () => {
     if (auth.user?.id) {
       navigate(`/home/profile/${auth.user.id}`);
@@ -27,6 +28,7 @@ const [anchorEl, setAnchorEl] = React.useState(null);
     handleClose();
   };
   const handleLogout = () => {
+    dispatch(logoutAction());
     localStorage.removeItem("jwt");
     navigate("/"); 
     handleClose();

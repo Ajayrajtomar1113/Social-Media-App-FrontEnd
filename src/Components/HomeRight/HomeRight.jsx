@@ -11,6 +11,7 @@ const popularUser = [1,1,1,1,1]
 function HomeRight() {
   const dispatch = useDispatch()
   const auth = useSelector(store=>store.auth)
+  
   useEffect(()=>{
     dispatch(getAllUserAction())
   },[dispatch])
