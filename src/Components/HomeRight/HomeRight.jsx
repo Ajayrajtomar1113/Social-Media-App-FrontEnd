@@ -26,7 +26,7 @@ function HomeRight() {
           </div>
           <div>
             {auth.users
-            ?.filter(item => item.id !== auth?.user?.id)
+            ?.filter(item => item.id !== auth?.user?.id && item.role === "USER")
             .map((item) => (
               <PopularUserCard key={item.id} item={item} />
           ))}
