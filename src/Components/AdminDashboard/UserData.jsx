@@ -1,7 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const UserData = ({users , post}) => {
+const UserData = ({users}) => {
+   const post = useSelector((store) => store.post);
+
     const navigate = useNavigate()
      const handleprofile=(id)=>{
       navigate(`/admin/profile/${id}`);
@@ -22,7 +25,7 @@ const UserData = ({users , post}) => {
 
             <tbody>
               
-              {users?.filter((item)=>item.role != "ADMIN")  
+              {users?.filter((item)=>item.role !== "ADMIN")  
               ?.map((user) => (
                 <tr key={user.id} className="border-b">
                   <td className="p-2">{user.firstName} {user.lastName}</td>

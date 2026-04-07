@@ -10,6 +10,7 @@ import { getProfileAction } from './Redux/Auth/auth.action';
 import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
 import Profile from './Pages/Profile/Profile';   // 🔥 import
 import UserData from './Components/AdminDashboard/UserData';
+import AdminReels from './Components/AdminDashboard/AdminReels';
 
 function App() {
 
@@ -40,17 +41,17 @@ function App() {
         />
 
         <Route 
-          path="/admin" 
+          path="/admin/*" 
           element={
             auth.user && auth.user.role === "ADMIN"
               ? <AdminDashboard />
               : <Navigate to="/home" />
           }
         >
-          <Route path="profile/:id" element={<Profile />} />
+          {/* <Route path="profile/:id" element={<Profile />} />
+          <Route path="reels" element={<AdminReels />} /> */}
         </Route>
 
-        {/* DEFAULT ROUTE */}
         <Route
           path="/*"
           element={
