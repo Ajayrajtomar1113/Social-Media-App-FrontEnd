@@ -17,14 +17,14 @@ function AdminPosts() {
 //   };
 
   return (
-    <div className="p-4 bg-zinc-100">
+    <div className="p-4 bg-slate-200">
       <h1 className="text-xl font-bold mb-4">Manage Posts</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
         {posts?.map((post) => (
           <div key={post.id} className="bg-white rounded shadow p-3 bg-zinc-300">
 
-            {/* IMAGE */}
+          
             {post.image && (
               <img
                 src={post.image}
@@ -49,10 +49,9 @@ function AdminPosts() {
               <span>💬 {post.comments?.length || 0}</span>
             </div> */}
 
-            {/* ACTION */}
             <div className="mt-3 flex justify-between">
               <button
-                className="bg-red-500 text-white px-3 py-1 rounded text-sm"
+                className="bg-red-500 text-white px-3 py-1 rounded text-sm "
                 // onClick={() => handleDelete(post.id)}
               >
                 Delete
