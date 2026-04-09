@@ -15,7 +15,8 @@ export const authReducer=(state=initialState,action)=>{
         case SAVE_POST_REQUEST:
         case GET_USER_BY_ID_REQUEST:    
         case LOGIN_REQUEST:
-        case DELETE_USER_REQUEST:    
+        case DELETE_USER_REQUEST: 
+        
             return {...state, loading:true,error:null}
         case REGISTER_REQUEST:
             return {...state, loading:true,error:null}    
@@ -30,6 +31,7 @@ export const authReducer=(state=initialState,action)=>{
                 ...state,
                 users : state.users.filter((user)=>user.id !== action.payload.id)
             }
+        
         case LOGIN_SUCCESS:
             return {...state, jwt:action.payload,loading:false, error:null}
         case REGISTER_SUCCESS:

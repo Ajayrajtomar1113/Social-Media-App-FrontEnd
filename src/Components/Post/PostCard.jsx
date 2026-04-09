@@ -1,4 +1,4 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, IconButton, Typography } from '@mui/material'
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, IconButton, MenuItem, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { red } from '@mui/material/colors';
@@ -9,17 +9,28 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { useDispatch, useSelector } from 'react-redux';
-import { createCommentAction, deleteCommentAction, likePostAction } from '../../Redux/Post/Post.action';
+import { createCommentAction, deleteCommentAction, deletePostAction, likePostAction } from '../../Redux/Post/Post.action';
 import { isLikedByReqUser } from '../../utils/isLikedByRequser';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { savePostAction } from '../../Redux/Auth/auth.action';
+import Menu from '@mui/material/Menu';
+import { useNavigate } from 'react-router-dom';
 
 function PostCard({item}) {
   
 const [showComments,setShowComments] = useState(false)
 const handleShowComment=()=>setShowComments(!showComments);
 const dispatch = useDispatch()
+const navigate = useNavigate()
 const auth=useSelector(store=>store.auth)
+const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget); 
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
 const handleCreateComment=(content)=>{
       const reqData={
@@ -38,8 +49,14 @@ const handleLikePost=()=>{
 const handleSaved=()=>{
   dispatch(savePostAction(item.id))
 }
+const handleDeletePost=()=>{
+  dispatch(deletePostAction(item.id))
+}
+const handleVisitProfile=()=>{
+  navigate(`/home/profile/${item.user.id}`);
+}
   return (
-    <Card className='w-full mx-auto'>
+    <Card className='w-full mx-auto '>
         <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -47,9 +64,26 @@ const handleSaved=()=>{
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+           <div>
+            <Button onClick={handleClick}>
+              <MoreVertIcon/>
+            </Button>
+
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+            >
+             {(item?.user?.id === auth?.user?.id || auth?.user?.role === "ADMIN") && (
+                <MenuItem onClick={handleDeletePost}>Delete Post</MenuItem>
+              )}
+
+              {(item?.user?.id !== auth?.user?.id && auth?.user?.role !== "ADMIN" )&&(
+                <MenuItem onClick={handleVisitProfile}>Visit Profile</MenuItem>
+              )}
+              
+            </Menu>
+          </div>
         }
         title={item?.user?.firstName+" "+item?.user?.lastName}
         subheader={"@"+item?.user?.firstName.toLowerCase()+"_"+item?.user?.lastName.toLowerCase()}
@@ -60,6 +94,13 @@ const handleSaved=()=>{
         image={item?.image}
         alt="Paella dish"
       />
+       {/* <div className="w-full aspect-square overflow-hidden">
+        <img
+          src={item?.image}
+          alt="post"
+          className="w-full h-full object-cover"
+        />
+      </div> */}
       <CardContent>
         <Typography variant="body2" sx={{ color: 'text.primary' }}>
           {item?.caption}

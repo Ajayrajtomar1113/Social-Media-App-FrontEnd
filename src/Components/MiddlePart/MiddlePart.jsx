@@ -1,7 +1,7 @@
 import { Avatar, Card, IconButton } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import AddIcon from '@mui/icons-material/Add';
-import StoryCircle from './StoryCircle';
+// import AddIcon from '@mui/icons-material/Add';
+// import StoryCircle from './StoryCircle';
 import ImageIcon from '@mui/icons-material/Image';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ArticleIcon from '@mui/icons-material/Article';
@@ -10,7 +10,7 @@ import CreatePostModel from '../CreatePost/CreatePostModel';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllPostAction } from '../../Redux/Post/Post.action';
 
-const story=[1,1,1,1,1,1]
+// const story=[1,1,1,1,1,1]
 
 
 function MiddlePart() {
@@ -27,7 +27,7 @@ function MiddlePart() {
 
   useEffect(()=>{
     dispatch(getAllPostAction())
-  },[post.newComment])
+  },[post.newComment,dispatch])
   return (
     <div className='px-5'>
       {/* <section className="flex bg-zinc-300 items-center p-4 rounded-b-md">

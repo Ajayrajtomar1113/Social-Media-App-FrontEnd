@@ -1,4 +1,4 @@
-import { CREATE_POST_FAILURE, CREATE_POST_SUCCESS,CREATE_REEL_REQUEST,CREATE_REEL_FAILURE,CREATE_REEL_SUCCESS, CREATE_POST_REQUEST, GET_ALL_POST_FAILURE, GET_ALL_POST_REQUEST, GET_ALL_POST_SUCCESS, GET_USERS_POST_FAILURE, GET_USERS_POST_REQUEST, GET_USERS_POST_SUCCESS, LIKE_POST_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, CREATE_COMMENT_REQUEST, CREATE_COMMENT_SUCCESS, CREATE_COMMENT_FAILURE, GET_ALL_REEL_REQUEST, GET_ALL_REEL_SUCCESS, GET_ALL_REEL_FAILURE, DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS, DELETE_COMMENT_FAILURE } from "./Post.actionType"
+import { CREATE_POST_FAILURE, CREATE_POST_SUCCESS,CREATE_REEL_REQUEST,CREATE_REEL_FAILURE,CREATE_REEL_SUCCESS, CREATE_POST_REQUEST, GET_ALL_POST_FAILURE, GET_ALL_POST_REQUEST, GET_ALL_POST_SUCCESS, GET_USERS_POST_FAILURE, GET_USERS_POST_REQUEST, GET_USERS_POST_SUCCESS, LIKE_POST_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, CREATE_COMMENT_REQUEST, CREATE_COMMENT_SUCCESS, CREATE_COMMENT_FAILURE, GET_ALL_REEL_REQUEST, GET_ALL_REEL_SUCCESS, GET_ALL_REEL_FAILURE, DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS, DELETE_COMMENT_FAILURE, DELETE_POST_REQUEST, DELETE_POST_SUCCESS, DELETE_POST_FAILURE } from "./Post.actionType"
 import { api } from "../../config/api"
 
 export const createPostAction=(postData)=>async (dispatch)=>{
@@ -112,3 +112,29 @@ export const getAllReelAction=()=>async (dispatch)=>{
     }
 }
 
+
+export const deletePostAction = (postId) => async (dispatch) => {
+    dispatch({ type: DELETE_POST_REQUEST });
+
+    try {
+        const { data } = await api.delete(`/api/post/${postId}`);
+        console.log("deleted post",data)
+        dispatch({
+            type: DELETE_POST_SUCCESS,
+            payload: postId
+        });
+
+    } catch (error) {
+        console.log("------", error);
+
+        dispatch({
+            type: DELETE_POST_FAILURE,
+            payload: error
+        });
+    }
+};
+
+export const removePostFromStore = (postId) => ({
+  type: "REMOVE_POST",
+  payload: postId
+});

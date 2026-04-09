@@ -10,11 +10,12 @@ function AdminPosts() {
     dispatch(getAllPostAction());
   }, [dispatch]);
 
-//   const handleDelete = (id) => {
-//     if (window.confirm("Are you sure you want to delete this post?")) {
-//       dispatch(deletePostAction(id));
-//     }
-//   };
+
+const handleDeletePost=(postId)=>{
+  if (window.confirm("Are you sure you want to delete this post?")) {
+  dispatch(deletePostAction(postId))
+  }
+}
 
   return (
     <div className="p-4 bg-slate-200">
@@ -52,7 +53,7 @@ function AdminPosts() {
             <div className="mt-3 flex justify-between">
               <button
                 className="bg-red-500 text-white px-3 py-1 rounded text-sm "
-                // onClick={() => handleDelete(post.id)}
+                onClick={() => handleDeletePost(post.id)}
               >
                 Delete
               </button>

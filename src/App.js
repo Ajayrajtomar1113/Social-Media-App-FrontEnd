@@ -8,9 +8,10 @@ import './index.css';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { getProfileAction } from './Redux/Auth/auth.action';
 import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
-import Profile from './Pages/Profile/Profile';   // 🔥 import
-import UserData from './Components/AdminDashboard/UserData';
-import AdminReels from './Components/AdminDashboard/AdminReels';
+
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
+import { removePostFromStore } from './Redux/Post/Post.action';
 
 function App() {
 
@@ -24,17 +25,43 @@ function App() {
     }
   }, [jwt, dispatch]);
 
+  // 🔥 WEBSOCKET (DELETE POST ONLY)
+  useEffect(() => {
+
+    const client = new Client({
+      webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+      reconnectDelay: 5000,
+
+      onConnect: () => {
+        console.log("Connected for delete-post");
+
+        client.subscribe("/topic/delete-post", (message) => {
+          const postId = message.body;
+          console.log("🗑️ Deleted:", postId);
+
+          // ✅ ONLY REMOVE FROM STORE (NO API CALL)
+          dispatch(removePostFromStore(postId));
+        });
+      }
+    });
+
+    client.activate();
+
+    return () => {
+      client.deactivate();
+    };
+
+  }, [dispatch]);
+
   return (
     <div>
       <Routes>
 
-        {/* USER SIDE */}
         <Route 
           path="/home/*" 
           element={auth.user ? <HomePage /> : <Navigate to="/" />} 
         />
 
-        {/* MESSAGE */}
         <Route 
           path="/message" 
           element={auth.user ? <Message /> : <Navigate to="/" />} 
@@ -47,10 +74,7 @@ function App() {
               ? <AdminDashboard />
               : <Navigate to="/home" />
           }
-        >
-          {/* <Route path="profile/:id" element={<Profile />} />
-          <Route path="reels" element={<AdminReels />} /> */}
-        </Route>
+        />
 
         <Route
           path="/*"

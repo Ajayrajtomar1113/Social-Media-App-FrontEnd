@@ -1,4 +1,4 @@
-import { CREATE_POST_FAILURE, CREATE_POST_SUCCESS, CREATE_POST_REQUEST, GET_ALL_POST_REQUEST, LIKE_POST_SUCCESS, GET_ALL_POST_FAILURE, LIKE_POST_FAILURE, GET_ALL_POST_SUCCESS, LIKE_POST_REQUEST, CREATE_COMMENT_SUCCESS, CREATE_REEL_REQUEST, CREATE_REEL_SUCCESS, CREATE_REEL_FAILURE, GET_ALL_REEL_SUCCESS, GET_ALL_REEL_REQUEST, GET_ALL_REEL_FAILURE, DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS } from "./Post.actionType";
+import { CREATE_POST_FAILURE, CREATE_POST_SUCCESS, CREATE_POST_REQUEST, GET_ALL_POST_REQUEST, LIKE_POST_SUCCESS, GET_ALL_POST_FAILURE, LIKE_POST_FAILURE, GET_ALL_POST_SUCCESS, LIKE_POST_REQUEST, CREATE_COMMENT_SUCCESS, CREATE_REEL_REQUEST, CREATE_REEL_SUCCESS, CREATE_REEL_FAILURE, GET_ALL_REEL_SUCCESS, GET_ALL_REEL_REQUEST, GET_ALL_REEL_FAILURE, DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS, DELETE_POST_REQUEST, DELETE_POST_SUCCESS } from "./Post.actionType";
 
 const initialState = {
     post:null,
@@ -19,6 +19,7 @@ export const postReducer = (state = initialState,action)=>{
         case CREATE_REEL_REQUEST:
         case GET_ALL_REEL_REQUEST:  
         case DELETE_COMMENT_REQUEST:  
+        case DELETE_POST_REQUEST:
             return {...state,error:null,loading:true} 
         case CREATE_POST_SUCCESS:
             return {
@@ -28,6 +29,16 @@ export const postReducer = (state = initialState,action)=>{
                 loading: false,
                 error: null
             }
+        case DELETE_POST_SUCCESS:
+            return {
+                ...state,
+                posts: state.posts.filter((post)=>post.id !== action.payload)
+            }  
+        case "REMOVE_POST":
+            return {
+                ...state,
+                posts: state.posts.filter(post => post.id !== Number(action.payload))
+            };      
         case GET_ALL_POST_SUCCESS:
             return {
                 ...state,
