@@ -47,7 +47,6 @@ const UserReelCard = ({ item }) => {
         src={item.video}
         className="h-full w-full object-cover"
         loop
-        muted
         playsInline
       />
 
