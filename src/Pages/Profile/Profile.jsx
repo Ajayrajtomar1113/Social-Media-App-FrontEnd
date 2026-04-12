@@ -139,7 +139,7 @@ function Profile() {
           )}
 
           {value === "reels" && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2">
               {post.reels?.filter(r => r.user?.id === currentUser?.id)
                 .map(item => (
                   <UserReelCard key={item.id} item={item} />

@@ -12,7 +12,7 @@
 // })
 import axios from "axios";
 
-export const API_BASE_URL = "http://localhost:8080";
+export const API_BASE_URL = "https://social-media-app-backend-rl2d.onrender.com";
 
 export const api = axios.create({
     baseURL: API_BASE_URL,
@@ -20,7 +20,6 @@ export const api = axios.create({
         "Content-Type": "application/json"
     }
 });
-
 api.interceptors.request.use(
     (config) => {
         const jwt = localStorage.getItem("jwt");

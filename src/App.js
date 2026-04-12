@@ -11,7 +11,7 @@ import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
 
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import { removePostFromStore } from './Redux/Post/Post.action';
+import { removePostFromStore, removeReelFromStore } from './Redux/Post/Post.action';
 
 function App() {
 
@@ -25,33 +25,39 @@ function App() {
     }
   }, [jwt, dispatch]);
 
-  // 🔥 WEBSOCKET (DELETE POST ONLY)
-  useEffect(() => {
+useEffect(() => {
 
-    const client = new Client({
-      webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
-      reconnectDelay: 5000,
+  const client = new Client({
+   webSocketFactory: () => new SockJS("https://social-media-app-backend-rl2d.onrender.com/ws"),
+    reconnectDelay: 5000,
 
-      onConnect: () => {
-        console.log("Connected for delete-post");
+    onConnect: () => {
+      
 
-        client.subscribe("/topic/delete-post", (message) => {
-          const postId = message.body;
-          console.log("🗑️ Deleted:", postId);
+      // Post delete
+      client.subscribe("/topic/delete-post", (message) => {
+        const postId = message.body;
+        console.log("Post Deleted:", postId);
+        dispatch(removePostFromStore(postId));
+      });
 
-          // ✅ ONLY REMOVE FROM STORE (NO API CALL)
-          dispatch(removePostFromStore(postId));
-        });
-      }
-    });
+      // Reel delete
+      client.subscribe("/topic/delete-reel", (message) => {
+        const reelId = message.body;
+        console.log("Reel Deleted:", reelId);
+        dispatch(removeReelFromStore(reelId));
+      });
+    }
+  });
 
-    client.activate();
+  client.activate();
 
-    return () => {
-      client.deactivate();
-    };
+  return () => {
+    client.deactivate();
+  };
 
-  }, [dispatch]);
+}, [dispatch]);
+  
 
   return (
     <div>

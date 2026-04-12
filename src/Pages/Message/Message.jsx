@@ -33,7 +33,7 @@ useEffect(() => {
 dispatch(getAllChats());
 }, []);
 
-// 🔥 WS CONNECT (ONLY RECEIVE)
+//  WS CONNECT (ONLY RECEIVE)
 useEffect(() => {
 if (currentChat) {
 
