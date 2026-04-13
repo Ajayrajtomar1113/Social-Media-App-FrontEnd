@@ -68,12 +68,14 @@ function MiddlePart() {
             <IconButton color='primary' onClick={handleOpenCreatePostModal}>
               <ArticleIcon/>
             </IconButton>
-            <span>Article</span>
+            <span>Article</span>?
           </div>
         </div>
       </Card>
       <div className="mt-5 space-y-5">
-        {post.posts.map((item)=><PostCard item={item}/>)}
+        {Array.isArray(post.posts) && post.posts.map((item) => (
+        <PostCard key={item.id} item={item} />
+      ))}
         
       </div>
       <div>

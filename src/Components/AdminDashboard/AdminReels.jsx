@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllReelAction, deleteReelAction } from "../../Redux/Post/Post.action";
+import { getAllReelAction, deleteReel } from "../../Redux/Post/Post.action";
 
 function AdminReels() {
   const dispatch = useDispatch();
@@ -10,11 +10,11 @@ function AdminReels() {
     dispatch(getAllReelAction());
   }, [dispatch]);
 
-//   const handleDelete = (id) => {
-//     if (window.confirm("Are you sure you want to delete this reel?")) {
-//       dispatch(deleteReelAction(id));
-//     }
-//   };
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this reel?")) {
+      dispatch(deleteReel(id));
+    }
+  };
 
   return (
     <div className="p-4">
@@ -45,7 +45,7 @@ function AdminReels() {
             <div className="mt-3 flex justify-between">
               <button
                 className="bg-red-500 text-white px-3 py-1 rounded text-sm"
-                //onClick={() => handleDelete(reel.id)}
+                onClick={() => handleDelete(reel.id)}
               >
                 Delete
               </button>

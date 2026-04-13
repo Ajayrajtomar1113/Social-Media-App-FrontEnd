@@ -6,9 +6,9 @@ export const createPostAction=(postData)=>async (dispatch)=>{
     try {
         const {data} = await api.post('/api/post',postData)
         dispatch({type:CREATE_POST_SUCCESS,payload:data})
-        console.log("created post",data)
+        // console.log("created post",data)
     } catch (error) {
-        console.log("error")
+        // console.log("error")
         dispatch({type:CREATE_POST_FAILURE,payload:error})
     }
 };
@@ -18,9 +18,9 @@ export const getAllPostAction=()=>async (dispatch)=>{
     try {
         const {data} = await api.get('/api/posts')
         dispatch({type:GET_ALL_POST_SUCCESS,payload:data})
-        console.log("Get all post",data)
+        // console.log("Get all post",data)
     } catch (error) {
-        console.log("error")
+        // console.log("error")
         dispatch({type:GET_ALL_POST_FAILURE,payload:error})
     }
 }
@@ -30,9 +30,9 @@ export const getUsersPostAction=(userId)=>async (dispatch)=>{
     try {
         const {data} = await api.get(`/api/posts/user/${userId}`)
         dispatch({type:GET_USERS_POST_SUCCESS,payload:data})
-        console.log("Get users post",data)
+        // console.log("Get users post",data)
     } catch (error) {
-        console.log("error")
+        // console.log("error")
         dispatch({type:GET_USERS_POST_FAILURE,payload:error})
     }
 }
@@ -42,9 +42,9 @@ export const likePostAction=(postId)=>async (dispatch)=>{
     try {
         const {data} = await api.put(`/api/post/like/${postId}`)
         dispatch({type:LIKE_POST_SUCCESS,payload:data})
-        console.log("like post",data)
+        // console.log("like post",data)
     } catch (error) {
-        console.log("error")
+        // console.log("error")
         dispatch({type:LIKE_POST_FAILURE,payload:error})
     }
 }
@@ -56,10 +56,10 @@ export const createCommentAction=(reqData)=>async (dispatch)=>{
         const {data} = await api.post(`/api/comment/post/${reqData.postId}`,reqData.data
         )
         dispatch({type:CREATE_COMMENT_SUCCESS,payload:data})
-        console.log("created comment",data)
+        // console.log("created comment",data)
     } catch (error) {
-        console.log("error")
-        console.log("COMMENT ERROR 👉", error.response?.status, error.response?.data);
+        // console.log("error")
+        // console.log("COMMENT ERROR 👉", error.response?.status, error.response?.data);
         dispatch({type:CREATE_COMMENT_FAILURE,payload:error})
     }
 };
@@ -76,9 +76,9 @@ export const deleteCommentAction = (commentId) => async (dispatch) => {
             payload: commentId   
         });
 
-        console.log("deleted comment", data);
+        // console.log("deleted comment", data);
     } catch (error) {
-        console.log("error", error);
+        // console.log("error", error);
         dispatch({
             type: DELETE_COMMENT_FAILURE,
             payload: error
@@ -92,9 +92,9 @@ export const createReelAction=(reelData)=>async (dispatch)=>{
         const {data} = await api.post(`/api/reels`,reelData
         )
         dispatch({type:CREATE_REEL_SUCCESS,payload:data})
-        console.log("created REEL",data)
+        // console.log("created REEL",data)
     } catch (error) {
-        console.log("error")
+        // console.log("error")
         
         dispatch({type:CREATE_REEL_FAILURE,payload:error})
     }
@@ -105,9 +105,9 @@ export const getAllReelAction=()=>async (dispatch)=>{
     try {
         const {data} = await api.get('/api/reels')
         dispatch({type:GET_ALL_REEL_SUCCESS,payload:data})
-        console.log("Get all reel",data)
+        // console.log("Get all reel",data)
     } catch (error) {
-        console.log("error")
+        // console.log("error")
         dispatch({type:GET_ALL_REEL_FAILURE,payload:error})
     }
 }
@@ -118,14 +118,14 @@ export const deletePostAction = (postId) => async (dispatch) => {
 
     try {
         const { data } = await api.delete(`/api/post/${postId}`);
-        console.log("deleted post",data)
+        // console.log("deleted post",data)
         dispatch({
             type: DELETE_POST_SUCCESS,
             payload: postId
         });
 
     } catch (error) {
-        console.log("------", error);
+        // console.log("------", error);
 
         dispatch({
             type: DELETE_POST_FAILURE,

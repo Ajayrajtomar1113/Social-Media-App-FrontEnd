@@ -11,12 +11,12 @@ export const loginUserAction = (loginData)=>async(dispatch)=>{
             localStorage.setItem("jwt",data.token)
             
         }
-        console.log("login success",data);
+        // console.log("login success",data);
         dispatch({type:LOGIN_SUCCESS,payload:data.token})
         dispatch(getProfileAction());
      
     } catch (error) {
-        console.log("------",error)
+        // console.log("------",error)
         dispatch({type:LOGIN_FAILURE,payload:error})
       
     }
@@ -35,11 +35,11 @@ export const registerUserAction = (loginData) => async (dispatch) => {
             localStorage.setItem("jwt", data.token);
         }
 
-        console.log("register", data);
+        // console.log("register", data);
         dispatch({ type: REGISTER_SUCCESS, payload: data.token });
 
     } catch (error) {
-        console.log("------", error);
+        // console.log("------", error);
         dispatch({ type: REGISTER_FAILURE, payload: error });
     }
 }; 
@@ -52,11 +52,11 @@ export const getProfileAction = () => async (dispatch) => {
         
         const { data } = await api.get("/api/users/profile");
         
-         console.log("profile", data);
+        //  console.log("profile", data);
         dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
 
     } catch (error) {
-        console.log("------", error);
+        // console.log("------", error);
         dispatch({ type: GET_PROFILE_FAILURE, payload: error });
     }
 };
@@ -70,11 +70,11 @@ export const updateProfileAction = (reqData) => async (dispatch) => {
       reqData
     );
 
-    console.log("Update profile", data);
+    // console.log("Update profile", data);
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data });
 
   } catch (error) {
-    console.log("------", error);
+    // console.log("------", error);
     dispatch({ type: UPDATE_PROFILE_FAILURE, payload: error });
   }
 };
@@ -86,11 +86,11 @@ export const searchUser = (query) => async (dispatch) => {
         const { data } = await api.get(
             `/api/users/search?query=${query}`);
 
-        console.log("search user", data);
+        // console.log("search user", data);
         dispatch({ type:SEARCH_USER_SUCCESS, payload: data });
 
     } catch (error) {
-        console.log("------", error);
+        // console.log("------", error);
         dispatch({ type: SEARCH_USER_FAILURE, payload: error });
     }
 };
@@ -100,12 +100,12 @@ export const getAllUserAction = () => async (dispatch) => {
     
     try {
         const {data} =  await api.get('/api/users')
-        console.log("users", data);
+        // console.log("users", data);
         
         dispatch({ type: GET_ALL_USER_SUCCESS, payload: data });
 
     } catch (error) {
-        console.log("------", error);
+        // console.log("------", error);
         dispatch({ type: GET_ALL_USER_FAILURE, payload: error });
     }
 };
@@ -115,9 +115,9 @@ export const followUserAction=(userId)=>async(dispatch)=>{
     try {
         const {data} = await api.put(`/api/users/follow/${userId}`)
         dispatch({type:FOLLOW_SUCCESS,payload:data})
-        console.log(data)
+        // console.log(data)
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         dispatch({type:FOLLOW_FAILURE,payload:error})
     }
 
@@ -127,9 +127,9 @@ export const savePostAction=(postId)=>async (dispatch)=>{
     try {
         const {data} = await api.put(`/api/posts/save/${postId}`)
         dispatch({type:SAVE_POST_SUCCESS,payload:data})
-        console.log(data)
+        // console.log(data)
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         dispatch({type:SAVE_POST_FAILURE,payload:error})
     }
 }
@@ -140,7 +140,7 @@ export const getUserById = (userId) => async (dispatch) => {
     try {
         const { data } = await api.get(`/api/users/id/${userId}`);
 
-        console.log("user profile by id", data);
+        // console.log("user profile by id", data);
 
         dispatch({
             type: GET_USER_BY_ID_SUCCESS,
@@ -148,7 +148,7 @@ export const getUserById = (userId) => async (dispatch) => {
         });
 
     } catch (error) {
-        console.log("------", error);
+        // console.log("------", error);
 
         dispatch({
             type: GET_USER_BY_ID_FAILURE,
@@ -169,14 +169,14 @@ export const deleteUserAction = (userId) => async (dispatch) => {
 
     try {
         const { data } = await api.delete(`/api/deleteuser/id/${userId}`);
-        console.log("deleted  user",data)
+        // console.log("deleted  user",data)
         dispatch({
             type: DELETE_USER_SUCCESS,
             payload: data
         });
 
     } catch (error) {
-        console.log("------", error);
+        // console.log("------", error);
 
         dispatch({
             type: DELETE_USER_FAILURE,

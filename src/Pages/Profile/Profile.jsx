@@ -9,6 +9,7 @@ import { deleteUserAction, followUserAction, getUserById } from '../../Redux/Aut
 
 function Profile() {
   const navigate = useNavigate()
+  const [activeVideo, setActiveVideo] = React.useState(null);
   const [value, setValue] = React.useState('post');
   const auth = useSelector(store => store.auth);
   const post = useSelector(store => store.post);
@@ -140,9 +141,15 @@ function Profile() {
 
           {value === "reels" && (
             <div className="grid grid-cols-2 sm:grid-cols-2 gap-2">
-              {post.reels?.filter(r => r.user?.id === currentUser?.id)
+              {post?.reels?.filter(r => r.user?.id === currentUser?.id)
                 .map(item => (
-                  <UserReelCard key={item.id} item={item} />
+                  <UserReelCard 
+                  key={item.id} 
+                  item={item} 
+                  isGrid={true}
+                  activeVideo={activeVideo}
+                  setActiveVideo={setActiveVideo}
+                />
                 ))}
             </div>
           )}

@@ -24,65 +24,70 @@ const [loading, setLoading] = useState(false);
 const [selectedImage, setSelectedImage] = useState("");
 
 const dispatch = useDispatch();
-const message = useSelector(store => store.message);
-const auth = useSelector(store => store.auth);
+const message = useSelector(state => state.message);
+const auth = useSelector(state => state.auth);
 
 const chatContainerRef = useRef();
 
 useEffect(() => {
-dispatch(getAllChats());
-}, []);
+  dispatch(getAllChats());
+}, [dispatch]);
 
-//  WS CONNECT (ONLY RECEIVE)
+// 🔌 WebSocket
 useEffect(() => {
-if (currentChat) {
+  if (currentChat) {
+    disconnectWebSocket();
 
-  disconnectWebSocket();
-
-  connectWebSocket(currentChat.id, (msg) => {
-    setMessages((prev) => {
-      if (prev.some(m => m.id === msg.id)) return prev;
-      return [...prev, msg];
+    connectWebSocket(currentChat.id, (msg) => {
+      setMessages((prev) => {
+        if (prev.some(m => m.id === msg.id)) return prev;
+        return [...prev, msg];
+      });
     });
-  });
-}
+  }
 
-return () => disconnectWebSocket();
+  return () => disconnectWebSocket();
 
 }, [currentChat]);
 
+// 📸 Image Upload
 const handleSelectImage = async (event) => {
-setLoading(true);
-const imgUrl = await uploadToCloudinary(event.target.files[0], "image");
-setSelectedImage(imgUrl);
-setLoading(false);
+  setLoading(true);
+  const imgUrl = await uploadToCloudinary(event.target.files[0], "image");
+  setSelectedImage(imgUrl);
+  setLoading(false);
 };
 
-// 🔥 SEND MESSAGE (ONLY REST)
+// 💬 Send Message
 const handleCreateMessage = async (value) => {
-if (!value && !selectedImage) return;
+  if (!value && !selectedImage) return;
 
-dispatch(createMessage({
-  chatId: currentChat.id,
-  content: value,
-  image: selectedImage
-}));
+  dispatch(createMessage({
+    chatId: currentChat?.id,
+    content: value,
+    image: selectedImage
+  }));
 
-setSelectedImage("");
-
+  setSelectedImage("");
 };
 
 const goToHome = () => navigate('/home');
 
 useEffect(() => {
-if (chatContainerRef.current) {
-chatContainerRef.current.scrollTop =
-chatContainerRef.current.scrollHeight;
-}
+  if (chatContainerRef.current) {
+    chatContainerRef.current.scrollTop =
+      chatContainerRef.current.scrollHeight;
+  }
 }, [messages]);
 
-return ( <div className="grid grid-cols-12 h-screen overflow-y-hidden">
+// 👤 Get other user safely
+const otherUser =
+  currentChat?.users?.find(u => u.id !== auth?.user?.id);
 
+return (
+<div className="grid grid-cols-12 h-screen overflow-y-hidden">
+
+  {/* LEFT */}
   <div className="col-span-3 p-4 bg-zinc-100">
     <div className="flex h-full">
       <div className="w-full">
@@ -96,10 +101,10 @@ return ( <div className="grid grid-cols-12 h-screen overflow-y-hidden">
           <SearchUser isChat={true} />
 
           <div className="h-full space-y-4 mt-4 overflow-y-scroll hideScrollbar">
-            {message.chats.map((item) => (
+            {message?.chats?.map((item) => (
               <div key={item.id} onClick={() => {
                 setCurrentChat(item);
-                setMessages(item.messages || []);
+                setMessages(item?.messages || []);
               }}>
                 <UserChatCard chat={item} />
               </div>
@@ -111,18 +116,20 @@ return ( <div className="grid grid-cols-12 h-screen overflow-y-hidden">
     </div>
   </div>
 
+  {/* RIGHT */}
   <div className="col-span-9 h-full">
 
     {currentChat ? (
       <div>
 
+        {/* HEADER */}
         <div className="flex justify-between items-center border-1 p-5">
           <div className="flex items-center space-x-3">
             <Avatar />
             <p>
-              {auth.user.id === currentChat.users[0].id
-                ? currentChat.users[1].firstName + " " + currentChat.users[1].lastName
-                : currentChat.users[0].firstName + " " + currentChat.users[0].lastName}
+              {otherUser
+                ? `${otherUser.firstName || ""} ${otherUser.lastName || ""}`
+                : "User"}
             </p>
           </div>
 
@@ -132,6 +139,7 @@ return ( <div className="grid grid-cols-12 h-screen overflow-y-hidden">
           </div>
         </div>
 
+        {/* CHAT */}
         <div
           ref={chatContainerRef}
           className='overflow-y-scroll h-[82vh] px-2 space-y-5 pl-5 pb-20'
@@ -141,6 +149,7 @@ return ( <div className="grid grid-cols-12 h-screen overflow-y-hidden">
           ))}
         </div>
 
+        {/* INPUT */}
         <div className='sticky bottom-0 border-l'>
 
           {selectedImage &&
@@ -179,12 +188,12 @@ return ( <div className="grid grid-cols-12 h-screen overflow-y-hidden">
 
   </div>
 
+  {/* LOADING */}
   <Backdrop open={loading}>
     <CircularProgress />
   </Backdrop>
 
 </div>
-
 );
 }
 
