@@ -13,17 +13,26 @@ export const createPostAction=(postData)=>async (dispatch)=>{
     }
 };
 
-export const getAllPostAction=()=>async (dispatch)=>{
-    dispatch({type:GET_ALL_POST_REQUEST})
+export const getAllPostAction = () => async (dispatch) => {
+    dispatch({ type: GET_ALL_POST_REQUEST });
+
     try {
-        const {data} = await api.get('/api/posts')
-        dispatch({type:GET_ALL_POST_SUCCESS,payload:data})
-        // console.log("Get all post",data)
+        const res = await api.get('/api/posts');
+
+        console.log("API RESPONSE:", res.data); 
+
+        dispatch({
+            type: GET_ALL_POST_SUCCESS,
+            payload: res.data.content || res.data.data || res.data
+        });
+
     } catch (error) {
-        // console.log("error")
-        dispatch({type:GET_ALL_POST_FAILURE,payload:error})
+        dispatch({
+            type: GET_ALL_POST_FAILURE,
+            payload: error
+        });
     }
-}
+};
 
 export const getUsersPostAction=(userId)=>async (dispatch)=>{
     dispatch({type:GET_USERS_POST_REQUEST})

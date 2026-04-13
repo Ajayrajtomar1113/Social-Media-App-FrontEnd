@@ -48,11 +48,9 @@ export const postReducer = (state = initialState,action)=>{
         case GET_ALL_POST_SUCCESS:
             return {
                 ...state,
-                posts: Array.isArray(action.payload)
-                    ? action.payload
-                    : action.payload?.data || [],
-                loading:false,
-                error:null
+                posts: action.payload,
+                loading: false,
+                error: null
             };
     
         case GET_ALL_REEL_SUCCESS:
