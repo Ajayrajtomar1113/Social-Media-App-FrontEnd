@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-export const API_BASE_URL = "https://social-media-chat-app-jg41.onrender.com";
+export const API_BASE_URL = "https://social-media-app-backend-h6yf.onrender.com";
 
 export const api = axios.create({
     baseURL: API_BASE_URL,

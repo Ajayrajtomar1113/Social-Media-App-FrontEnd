@@ -7,7 +7,7 @@ export const connectWebSocket = (chatId, onMessageReceived, onPostDeleted) => {
 
   stompClient = new Client({
     webSocketFactory: () =>
-      new SockJS("https://social-media-chat-app-jg41.onrender.com/ws"),
+      new SockJS("https://social-media-app-backend-h6yf.onrender.com/ws"),
     reconnectDelay: 5000,
 
     onConnect: () => {
