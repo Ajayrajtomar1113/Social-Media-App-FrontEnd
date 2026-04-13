@@ -9,29 +9,56 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllPostAction } from '../../Redux/Post/Post.action';
 
 function MiddlePart() {
-  const dispatch = useDispatch()
-  const post = useSelector(store => store.post)
+
+  const dispatch = useDispatch();
+
+  // ✅ Correct selector
+  const { posts, loading, error } = useSelector(store => store.post);
 
   const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
 
   const handleCloseCreatePostModal = () => setOpenCreatePostModal(false);
   const handleOpenCreatePostModal = () => setOpenCreatePostModal(true);
 
-  // ✅ SAFE POSTS
-  const safePosts = Array.isArray(post?.posts) ? post.posts : [];
-
-  // ✅ FIXED useEffect (only once)
+  // ✅ Fetch posts once
   useEffect(() => {
-    dispatch(getAllPostAction())
-  }, [dispatch])
+    dispatch(getAllPostAction());
+  }, [dispatch]);
+
+  // ✅ Safe posts
+  const safePosts = Array.isArray(posts) ? posts : [];
+
+  /* =========================
+     LOADING STATE
+  ========================= */
+  if (loading) {
+    return (
+      <div className="text-center mt-5 text-gray-500">
+        Loading posts...
+      </div>
+    );
+  }
+
+  /* =========================
+     ERROR STATE
+  ========================= */
+  if (error) {
+    return (
+      <div className="text-center mt-5 text-red-500">
+        {error.message || "Something went wrong"}
+      </div>
+    );
+  }
 
   return (
     <div className='px-5'>
 
-      {/* CREATE POST BOX */}
+      {/* =========================
+         CREATE POST BOX
+      ========================= */}
       <Card className='p-5 mt-5'>
         <div className="flex justify-between">
-          <Avatar/>
+          <Avatar />
           <input
             onClick={handleOpenCreatePostModal}
             type="text"
@@ -44,45 +71,51 @@ function MiddlePart() {
         <div className="flex justify-center space-x-9 mt-5">
           <div className="flex items-center">
             <IconButton color='primary' onClick={handleOpenCreatePostModal}>
-              <ImageIcon/>
+              <ImageIcon />
             </IconButton>
             <span>media</span>
           </div>
 
           <div className="flex items-center">
             <IconButton color='primary' onClick={handleOpenCreatePostModal}>
-              <VideocamIcon/>
+              <VideocamIcon />
             </IconButton>
             <span>video</span>
           </div>
 
           <div className="flex items-center">
             <IconButton color='primary' onClick={handleOpenCreatePostModal}>
-              <ArticleIcon/>
+              <ArticleIcon />
             </IconButton>
             <span>Article</span>
           </div>
         </div>
       </Card>
 
-      {/* POSTS */}
+      {/* =========================
+         POSTS LIST
+      ========================= */}
       <div className="mt-5 space-y-5">
         {safePosts.length > 0 ? (
           safePosts.map((item) => (
-            <PostCard key={item?.id} item={item} />
+            <PostCard key={item?.id || item?._id} item={item} />
           ))
         ) : (
-          <p className="text-center text-gray-500">No posts available</p>
+          <p className="text-center text-gray-500">
+            No posts available
+          </p>
         )}
       </div>
 
-      {/* MODAL */}
+      {/* =========================
+         CREATE POST MODAL
+      ========================= */}
       <CreatePostModel
         handleClose={handleCloseCreatePostModal}
         open={openCreatePostModal}
       />
     </div>
-  )
+  );
 }
 
-export default MiddlePart
+export default MiddlePart;
