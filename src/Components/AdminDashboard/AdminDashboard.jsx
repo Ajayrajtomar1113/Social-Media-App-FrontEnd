@@ -76,7 +76,7 @@ function AdminDashboard() {
           <div className="bg-white p-4 rounded shadow">
             <h2 className="text-gray-500">Total Users</h2>
             <p className="text-2xl font-bold">
-              {users?.filter((u) => u.role === "USER").length || 0}
+              {(Array.isArray(users) ? users : []).filter((u) => u.role === "USER").length}
             </p>
           </div>
 

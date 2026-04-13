@@ -11,6 +11,10 @@ const UserData = ({ users }) => {
     navigate(`/admin/profile/${id}`);
   };
 
+  // ✅ SAFE DATA
+  const safeUsers = Array.isArray(users) ? users : [];
+  const safePosts = Array.isArray(post?.posts) ? post.posts : [];
+
   return (
     <div className="bg-white p-5 rounded-xl shadow-md">
 
@@ -31,32 +35,33 @@ const UserData = ({ users }) => {
 
           {/* BODY */}
           <tbody>
-            {users?.filter((item) => item.role !== "ADMIN")
-              ?.map((user, index) => (
+            {safeUsers
+              .filter((item) => item?.role !== "ADMIN") // ✅ safe filter
+              .map((user, index) => (
                 <tr
-                  key={user.id}
+                  key={user?.id}
                   className={`border-b hover:bg-gray-50 transition ${
                     index % 2 === 0 ? "bg-white" : "bg-gray-50"
                   }`}
                 >
 
                   <td className="p-3 font-medium text-gray-800">
-                    {user.firstName} {user.lastName}
+                    {user?.firstName} {user?.lastName}
                   </td>
 
                   <td className="p-3 text-gray-600">
-                    {user.email}
+                    {user?.email}
                   </td>
 
                   <td className="p-3 text-gray-700 font-semibold">
                     {
-                      post?.posts?.filter(p => p.user?.id === user.id).length || 0
+                      safePosts.filter(p => p?.user?.id === user?.id).length
                     }
                   </td>
 
                   <td className="p-3 text-center">
                     <button
-                      onClick={() => handleprofile(user.id)}
+                      onClick={() => handleprofile(user?.id)}
                       className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
                     >
                       View

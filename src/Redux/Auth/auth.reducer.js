@@ -53,7 +53,15 @@ export const authReducer=(state=initialState,action)=>{
         case GET_ALL_USER_REQUEST:
             return {...state, loading:true, error:null} 
         case GET_ALL_USER_SUCCESS:
-            return {...state,users:action.payload,loading:false,error:null}   
+            return {
+                ...state,
+                users: Array.isArray(action.payload) 
+                    ? action.payload 
+                    : action.payload?.data || [],
+                loading: false,
+                error: null
+            };
+    
         case GET_ALL_USER_FAILURE:
             return {...state,loading:false,error:action.payload}
         case FOLLOW_REQUEST:
