@@ -116,16 +116,30 @@ const UserReelCard = ({
 
       {/* DELETE */}
       {auth?.user?.id === item.user?.id && (
-        <div className="absolute top-2 right-2 z-20">
-          <button onClick={() => setShowMenu(!showMenu)}>⋮</button>
+  <div className="absolute top-2 right-2 z-20">
 
-          {showMenu && (
-            <button onClick={handleDelete} className="text-red-500">
-              Delete
-            </button>
-          )}
-        </div>
-      )}
+    {!showMenu ? (
+      <button onClick={() => setShowMenu(true)}>⋮</button>
+    ) : (
+      <div className="flex flex-col items-end">
+        <button 
+          onClick={handleDelete} 
+          className="bg-black text-red-500 px-3 py-1 rounded"
+        >
+          Delete
+        </button>
+
+        {/* <button 
+          onClick={() => setShowMenu(false)} 
+          className="text-white text-xs mt-1"
+        >
+          Cancel
+        </button> */}
+      </div>
+    )}
+
+  </div>
+)}
 
     </div>
   );
