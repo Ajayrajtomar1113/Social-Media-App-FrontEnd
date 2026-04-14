@@ -78,20 +78,23 @@ const UserReelCard = ({
 
   return (
     <div
-      className={`relative bg-black 
-      ${isGrid ? "aspect-[9/16]" : "h-screen snap-start"}`}
+      className={`relative bg-black overflow-hidden
+      ${isGrid 
+        ? "aspect-[9/16]" 
+        : "h-[100vh] w-full snap-start flex items-center justify-center"
+      }`}
     >
 
       {/* 🎥 VIDEO */}
       <video
         ref={videoRef}
         src={item.video}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover"  
         loop
         playsInline
         controls={false} // clean UI
       />
-
+  <div className="absolute inset-0 bg-black/10 z-10 pointer-events-none"></div>
       {/* CLICK LAYER */}
       <div
         onClick={handlePlayPause}
