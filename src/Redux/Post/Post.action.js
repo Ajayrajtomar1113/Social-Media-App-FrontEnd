@@ -234,7 +234,7 @@ export const getAllPostAction = () => async (dispatch) => {
 
     dispatch({
       type: GET_ALL_POST_SUCCESS,
-      payload: extractArray(res.data)   // ✅ FIX
+      payload: Array.isArray(res.data) ? res.data : []
     });
 
   } catch (error) {
