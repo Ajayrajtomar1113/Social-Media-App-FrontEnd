@@ -12,7 +12,6 @@ function MiddlePart() {
 
   const dispatch = useDispatch();
 
-  // ✅ Correct selector
   const { posts, loading, error } = useSelector(store => store.post);
 
   const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
@@ -20,12 +19,10 @@ function MiddlePart() {
   const handleCloseCreatePostModal = () => setOpenCreatePostModal(false);
   const handleOpenCreatePostModal = () => setOpenCreatePostModal(true);
 
-  // ✅ Fetch posts once
   useEffect(() => {
     dispatch(getAllPostAction());
   }, [dispatch]);
 
-  // ✅ Safe posts
   const safePosts = Array.isArray(posts) ? posts : [];
 
   /* =========================

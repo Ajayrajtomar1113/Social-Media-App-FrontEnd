@@ -10,7 +10,7 @@ export default function Authentication() {
     <Grid container className="h-screen bg-zinc-400" wrap="nowrap">
       
       {/* LEFT */}
-      <Grid size={6} className="h-full w-[65%] overflow-hidden">
+      <Grid size={8} className="h-full w-[65%] overflow-hidden">
         <img
           className="h-full w-full object-cover"
           src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7"
@@ -19,7 +19,7 @@ export default function Authentication() {
       </Grid>
 
       {/* RIGHT */}
-      <Grid size={6} className="h-full flex items-center justify-center ml-4">
+      <Grid size={4} className="h-full flex items-center justify-center ml-4">
         <Card className="w-[85%] p-8 rounded-3xl shadow-2xl mt-2">
           
           <div className="flex flex-col items-center mb-6">

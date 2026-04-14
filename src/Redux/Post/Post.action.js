@@ -233,9 +233,9 @@ export const getAllPostAction = () => async (dispatch) => {
     console.log("POST API:", res.data);
 
     dispatch({
-      type: GET_ALL_POST_SUCCESS,
-      payload: Array.isArray(res.data) ? res.data : []
-    });
+    type: GET_ALL_POST_SUCCESS,
+    payload: res.data
+  });
 
   } catch (error) {
     dispatch({
