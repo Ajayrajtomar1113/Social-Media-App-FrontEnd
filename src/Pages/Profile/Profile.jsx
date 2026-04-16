@@ -8,9 +8,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { deleteUserAction, followUserAction, getUserById } from '../../Redux/Auth/auth.action'
 
 function Profile() {
+
   const navigate = useNavigate()
   const [activeVideo, setActiveVideo] = React.useState(null);
   const [value, setValue] = React.useState('post');
+
   const auth = useSelector(store => store.auth);
   const post = useSelector(store => store.post);
 
@@ -59,10 +61,12 @@ function Profile() {
 
   const [open, setOpen] = React.useState(false);
 
-  // ✅ SAFE DATA
   const safePosts = Array.isArray(post?.posts) ? post.posts : [];
   const safeReels = Array.isArray(post?.reels) ? post.reels : [];
   const safeSaved = Array.isArray(auth?.user?.savedPost) ? auth.user.savedPost : [];
+
+  const userPosts = safePosts.filter(p => p?.user?.id === currentUser?.id);
+  const userReels = safeReels.filter(r => r?.user?.id === currentUser?.id);
 
   if (!currentUser) return <p className="text-center mt-10">Loading...</p>;
 
@@ -125,16 +129,12 @@ function Profile() {
           </div>
         </div>
 
-        {/* Stats */}
         <div className="px-3 sm:px-5 py-2 flex gap-4 text-xs sm:text-sm">
-          <span>
-            {safePosts.filter(p => p?.user?.id === currentUser?.id).length} posts
-          </span>
+          <span>{userPosts.length} posts</span>
           <span>{currentUser?.followers?.length || 0} followers</span>
           <span>{currentUser?.followings?.length || 0} following</span>
         </div>
 
-        {/* Tabs */}
         <Box sx={{ borderBottom: 1 }}>
           <Tabs value={value} onChange={(e,v)=>setValue(v)} variant="scrollable">
             {tabs.map(tab => (
@@ -142,25 +142,26 @@ function Profile() {
             ))}
           </Tabs>
         </Box>
-
-        {/* Content */}
         <div className="w-full max-w-3xl mx-auto px-2 py-4">
 
           {value === "post" && (
             <div className="space-y-3">
-              {safePosts
-                .filter(p => p?.user?.id === currentUser?.id)
-                .map(item => (
+              {userPosts.length > 0 ? (
+                userPosts.map(item => (
                   <PostCard key={item?.id} item={item} />
-                ))}
+                ))
+              ) : (
+                <p className="text-center text-gray-500 py-5">
+                  No posts available
+                </p>
+              )}
             </div>
           )}
 
           {value === "reels" && (
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2">
-              {safeReels
-                .filter(r => r?.user?.id === currentUser?.id)
-                .map(item => (
+            <div className="grid grid-cols-2 gap-2">
+              {userReels.length > 0 ? (
+                userReels.map(item => (
                   <UserReelCard 
                     key={item?.id} 
                     item={item} 
@@ -168,15 +169,26 @@ function Profile() {
                     activeVideo={activeVideo}
                     setActiveVideo={setActiveVideo}
                   />
-                ))}
+                ))
+              ) : (
+                <p className="text-center text-gray-500 py-5 col-span-2">
+                  No reels available
+                </p>
+              )}
             </div>
           )}
 
           {value === "saved" && isOwnProfile && (
             <div className="space-y-3">
-              {safeSaved.map(item => (
-                <PostCard key={item?.id} item={item} />
-              ))}
+              {safeSaved.length > 0 ? (
+                safeSaved.map(item => (
+                  <PostCard key={item?.id} item={item} />
+                ))
+              ) : (
+                <p className="text-center text-gray-500 py-5">
+                  No saved posts
+                </p>
+              )}
             </div>
           )}
 
@@ -192,4 +204,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default Profile;

@@ -24,9 +24,6 @@ const initialState = {
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
 
-    /* =========================
-       LOADING STATES
-    ========================= */
     case LOGIN_REQUEST:
     case REGISTER_REQUEST:
     case GET_PROFILE_REQUEST:
@@ -37,10 +34,6 @@ export const authReducer = (state = initialState, action) => {
     case DELETE_USER_REQUEST:
       return { ...state, loading: true, error: null };
 
-
-    /* =========================
-       AUTH SUCCESS
-    ========================= */
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       return {
@@ -50,10 +43,6 @@ export const authReducer = (state = initialState, action) => {
         error: null
       };
 
-
-    /* =========================
-       PROFILE
-    ========================= */
     case GET_PROFILE_SUCCESS:
       return {
         ...state,
@@ -77,14 +66,10 @@ export const authReducer = (state = initialState, action) => {
         loading: false
       };
 
-
-    /* =========================
-       USERS
-    ========================= */
     case SEARCH_USER_SUCCESS:
       return {
         ...state,
-        searchUser: action.payload,   // ✅ already clean array from action
+        searchUser: action.payload,  
         loading: false,
         error: null
       };
@@ -92,7 +77,7 @@ export const authReducer = (state = initialState, action) => {
     case GET_ALL_USER_SUCCESS:
       return {
         ...state,
-        users: action.payload,   // ✅ NO .data/.content here
+        users: action.payload, 
         loading: false,
         error: null
       };
@@ -105,10 +90,6 @@ export const authReducer = (state = initialState, action) => {
         )
       };
 
-
-    /* =========================
-       FOLLOW / SAVE POST
-    ========================= */
     case FOLLOW_SUCCESS:
       return {
         ...state,
@@ -125,10 +106,6 @@ export const authReducer = (state = initialState, action) => {
         error: null
       };
 
-
-    /* =========================
-       FAILURES
-    ========================= */
     case LOGIN_FAILURE:
     case REGISTER_FAILURE:
     case GET_PROFILE_FAILURE:
@@ -142,10 +119,6 @@ export const authReducer = (state = initialState, action) => {
         error: action.payload
       };
 
-
-    /* =========================
-       LOGOUT
-    ========================= */
     case "LOGOUT":
       return {
         ...state,
